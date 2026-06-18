@@ -1,620 +1,2155 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulasi Keuangan</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #eef2f5;
-      padding: 20px;
-      line-height: 1.6;
-      color: #333;
-      transition: background-color 0.5s ease, color 0.5s ease;
-    }
-    .container {
-      max-width: 700px;
-      margin: auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-      overflow: hidden;
-      transition: background-color 0.5s ease, box-shadow 0.5s ease;
-    }
-    h2 {
-      text-align: center;
-      color: #0056b3;
-      margin-bottom: 25px;
-      font-weight: 600;
-      transition: color 0.5s ease;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      color: #555;
-      transition: color 0.5s ease;
-    }
-    input, select {
-      width: 100%;
-      padding: 12px;
-      font-size: 1.05rem;
-      border: 1px solid #cce0f0;
-      border-radius: 8px;
-      box-sizing: border-box;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease, color 0.5s ease;
-    }
-    input:focus, select:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-      outline: none;
-    }
-    button {
-      width: 100%;
-      padding: 14px;
-      background: #007bff;
-      color: white;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease, color 0.5s ease;
-      margin-top: 10px;
-    }
-    button:hover {
-      background-color: #0056b3;
-      transform: translateY(-2px);
-    }
-    button:active {
-      transform: translateY(0);
-    }
-    .result-container {
-      margin-top: 35px;
-      padding: 25px;
-      background: #f8fbfd;
-      border-radius: 10px;
-      border: 1px solid #e0e7ee;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInSlideUp 0.6s ease-out forwards;
-      transition: background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
-    }
-    @keyframes fadeInSlideUp {
-      to {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulasi Keuangan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+      :root {
+        --bg: #f1f5f9;
+        --card-bg: #ffffff;
+        --text: #1e293b;
+        --text-secondary: #64748b;
+        --text-tertiary: #475569;
+        --border: #cbd5e1;
+        --border-light: #e2e8f0;
+        --primary: #2563eb;
+        --primary-hover: #1d4ed8;
+        --primary-light: #eff6ff;
+        --primary-soft: #dbeafe;
+        --accent: #10b981;
+        --accent-hover: #059669;
+        --accent-light: #ecfdf5;
+        --accent-soft: #d1fae5;
+        --danger: #ef4444;
+        --danger-light: #fef2f2;
+        --warning: #f59e0b;
+        --warning-light: #fffbeb;
+        --warning-soft: #fef3c7;
+        --info: #6366f1;
+        --info-light: #eef2ff;
+        --info-soft: #e0e7ff;
+        --bg-subtle: #f8fafc;
+        --table-stripe: #f8fafc;
+        --table-hover: #eef2ff;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+        --radius-sm: 8px;
+        --radius: 12px;
+        --radius-lg: 16px;
+        --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .dark-mode {
+        --bg: #1a1d23;
+        --card-bg: #242730;
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --text-tertiary: #cbd5e1;
+        --border: #475569;
+        --border-light: #374151;
+        --primary: #60a5fa;
+        --primary-hover: #3b82f6;
+        --primary-light: #1e3a5f;
+        --primary-soft: #1e3a5f;
+        --accent: #34d399;
+        --accent-hover: #10b981;
+        --accent-light: #064e3b;
+        --accent-soft: #064e3b;
+        --danger: #f87171;
+        --danger-light: #450a0a;
+        --warning: #fbbf24;
+        --warning-light: #451a03;
+        --warning-soft: #451a03;
+        --info: #818cf8;
+        --info-light: #1e1b4b;
+        --info-soft: #1e1b4b;
+        --bg-subtle: #1e2028;
+        --table-stripe: #1e2028;
+        --table-hover: #2a2d37;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.5);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 20px 16px 60px;
+        transition:
+          background var(--transition),
+          color var(--transition);
+        line-height: 1.6;
+      }
+
+      .app-container {
+        width: 100%;
+        max-width: 720px;
+        margin-top: 10px;
+      }
+
+      /* HEADER */
+      .app-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .app-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .app-title i {
+        color: var(--primary);
+        font-size: 1.6rem;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      #darkModeToggle {
+        background: var(--card-bg);
+        border: 1.5px solid var(--border);
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        transition: all var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-sm);
+      }
+
+      #darkModeToggle:hover {
+        color: var(--warning);
+        border-color: var(--warning);
+        transform: rotate(15deg);
+      }
+
+      /* STEPPER */
+      .stepper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+        gap: 0;
+        flex-wrap: nowrap;
+      }
+
+      .step-dot {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        background: var(--border-light);
+        color: var(--text-tertiary);
+        border: 2px solid transparent;
+        transition: all var(--transition);
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+      }
+
+      .step-dot.active {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+      }
+
+      .step-dot.done {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+
+      .step-line {
+        height: 2px;
+        flex: 1;
+        min-width: 20px;
+        background: var(--border-light);
+        transition: background var(--transition);
+        position: relative;
+        z-index: 0;
+      }
+
+      .step-line.done {
+        background: var(--accent);
+      }
+
+      .step-label-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 6px;
+        padding: 0 4px;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        gap: 8px;
+      }
+
+      .step-label-row span {
+        text-align: center;
+        flex: 1;
+        transition: color var(--transition);
+      }
+
+      .step-label-row span.active-label {
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .step-label-row span.done-label {
+        color: var(--accent);
+      }
+
+      /* MAIN CARD */
+      .main-card {
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
+        padding: 24px 20px;
+        box-shadow: var(--shadow-lg);
+        transition: all var(--transition);
+        border: 1px solid var(--border-light);
+        min-height: 300px;
+      }
+
+      @media (min-width: 600px) {
+        .main-card {
+          padding: 32px;
+        }
+      }
+
+      /* STEP PANELS */
+      .step-panel {
+        display: none;
+        animation: fadeSlideIn 0.35s ease-out;
+      }
+
+      .step-panel.active {
+        display: block;
+      }
+
+      @keyframes fadeSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* CHOICE CARDS (Step 1) */
+      .choice-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      @media (min-width: 500px) {
+        .choice-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      .choice-card {
+        border: 2px solid var(--border);
+        border-radius: var(--radius);
+        padding: 20px 16px;
+        cursor: pointer;
+        text-align: center;
+        transition: all var(--transition);
+        background: var(--card-bg);
+        position: relative;
+      }
+
+      .choice-card:hover {
+        border-color: var(--primary);
+        box-shadow: var(--shadow);
+        transform: translateY(-2px);
+        background: var(--bg-subtle);
+      }
+
+      .choice-card.selected {
+        border-color: var(--primary);
+        background: var(--primary-light);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      }
+
+      .choice-card .choice-icon {
+        font-size: 2.2rem;
+        margin-bottom: 8px;
+        color: var(--primary);
+        transition: color var(--transition);
+      }
+
+      .choice-card.selected .choice-icon {
+        color: var(--primary-hover);
+      }
+
+      .choice-card .choice-title {
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 4px;
+        color: var(--text);
+      }
+
+      .choice-card .choice-desc {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        line-height: 1.3;
+      }
+
+      /* FORM ELEMENTS */
+      .form-group {
+        margin-bottom: 18px;
+      }
+
+      .form-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+        color: var(--text);
+      }
+
+      .form-label .tooltip-trigger {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--border-light);
+        color: var(--text-secondary);
+        font-size: 0.65rem;
+        cursor: pointer;
+        position: relative;
+        font-weight: 700;
+        transition: all var(--transition);
+        flex-shrink: 0;
+      }
+
+      .form-label .tooltip-trigger:hover {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .tooltip-bubble {
+        display: none;
+        position: absolute;
+        bottom: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1e293b;
+        color: #f1f5f9;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 400;
+        white-space: normal;
+        width: 220px;
+        text-align: left;
+        line-height: 1.4;
+        z-index: 20;
+        pointer-events: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .tooltip-bubble::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 6px solid transparent;
+        border-top-color: #1e293b;
+      }
+
+      .tooltip-trigger:hover .tooltip-bubble,
+      .tooltip-trigger:focus .tooltip-bubble,
+      .tooltip-trigger:active .tooltip-bubble {
+        display: block;
+      }
+
+      @media (hover: none) {
+        .tooltip-trigger:active .tooltip-bubble {
+          display: block;
+        }
+      }
+
+      .form-input,
+      .form-select {
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 1rem;
+        font-family: inherit;
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius-sm);
+        background: var(--card-bg);
+        color: var(--text);
+        transition: all var(--transition);
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      .form-input:focus,
+      .form-select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      }
+
+      .form-select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23475569'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 36px;
+        cursor: pointer;
+      }
+
+      .input-wrapper {
+        position: relative;
+      }
+
+      .input-prefix {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-tertiary);
+        font-weight: 600;
+        pointer-events: none;
+        font-size: 0.95rem;
+      }
+
+      .input-wrapper .form-input {
+        padding-left: 42px;
+      }
+
+      .input-error {
+        border-color: var(--danger) !important;
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+      }
+
+      .error-msg {
+        font-size: 0.78rem;
+        color: var(--danger);
+        margin-top: 4px;
+        display: none;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .error-msg.show {
+        display: flex;
+      }
+
+      /* KREDIT TYPE CARDS */
+      .kredit-type-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        align-items: stretch;
+      }
+
+      @media (min-width: 500px) {
+        .kredit-type-row {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 8px;
+        }
+      }
+
+      .kredit-type-card {
+        border: 2px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 14px 10px;
+        cursor: pointer;
+        text-align: center;
+        transition: all var(--transition);
+        font-weight: 600;
+        font-size: 0.85rem;
+        background: var(--card-bg);
+        color: var(--text-tertiary);
+        position: relative;
+        min-height: 68px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2px;
+      }
+
+      .kredit-type-card:hover {
+        border-color: var(--primary);
+        color: var(--text);
+        background: var(--bg-subtle);
+      }
+
+      .kredit-type-card.selected {
+        border-color: var(--primary);
+        background: var(--primary-light);
+        color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      }
+
+      .kredit-type-card .kt-icon {
+        font-size: 1.3rem;
+        display: block;
+        margin-bottom: 0;
+        line-height: 1.1;
+      }
+
+      /* Ikon info pada kartu kredit */
+      .kredit-info-icon {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 22px;
+        height: 22px;
+        background: var(--card-bg);
+        border: 1.5px solid var(--border);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all var(--transition);
+        z-index: 2;
+        line-height: 1;
+      }
+      .kredit-info-icon:hover {
+        background: var(--primary-light);
+        color: var(--primary);
+        border-color: var(--primary);
+      }
+
+      /* MODAL POP-UP TENGAH */
+      .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.25s ease,
+          visibility 0.25s ease;
+        backdrop-filter: blur(2px);
+      }
+      .modal-backdrop.active {
         opacity: 1;
-        transform: translateY(0);
+        visibility: visible;
       }
-    }
-    .result-container h3 {
-      color: #0056b3;
-      margin-bottom: 20px;
-      text-align: center;
-      transition: color 0.5s ease;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    th, td {
-      border: 1px solid #e7eff5;
-      padding: 10px 12px;
-      text-align: left;
-      font-size: 0.95rem;
-      transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
-      white-space: nowrap;
-    }
-    th {
-      background: #f2f7fc;
-      font-weight: bold;
-      color: #444;
-    }
-    tr:nth-child(even) {
-      background-color: #f9fcff;
-    }
-    #cetakButton {
-      text-align: center;
-      margin-top: 25px;
-    }
-    #cetakButton button {
-      background: #28a745;
-    }
-    #cetakButton button:hover {
-      background-color: #218838;
-      transform: translateY(-2px);
-    }
-
-    
-    .table-responsive {
-      overflow-x: auto; 
-      -webkit-overflow-scrolling: touch;
-    }
-   
-
-    
-    body.dark-mode {
-      background-color: #2c2c2c;
-      color: #e0e0e0;
-    }
-    .dark-mode .container {
-      background: #3a3a3a;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-    }
-    .dark-mode h2 {
-      color: #90caf9;
-    }
-    .dark-mode label {
-      color: #bbbbbb;
-    }
-    .dark-mode input, .dark-mode select {
-      background-color: #4a4a4a;
-      border-color: #5a5a5a;
-      color: #e0e0e0;
-    }
-    .dark-mode input:focus, .dark-mode select:focus {
-      border-color: #64b5f6;
-      box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.25);
-    }
-    .dark-mode button {
-      background: #1976d2;
-    }
-    .dark-mode button:hover {
-      background-color: #1565c0;
-    }
-    .dark-mode .result-container {
-      background: #4a4a4a;
-      border-color: #5a5a5a;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
-    }
-    .dark-mode .result-container h3 {
-      color: #90caf9;
-    }
-    .dark-mode th, .dark-mode td {
-      border-color: #5a5a5a;
-    }
-    .dark-mode th {
-      background: #555;
-      color: #f0f0f0;
-    }
-    .dark-mode tr:nth-child(even) {
-      background-color: #4e4e4e;
-    }
-    .dark-mode #cetakButton button {
-      background: #388e3c;
-    }
-    .dark-mode #cetakButton button:hover {
-      background-color: #2e7d32;
-    }
-
-    #darkModeToggle {
-      position: absolute;
-      top: 20px;
-      right: 0px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.8rem;
-      color: #555;
-      transition: color 0.3s ease, transform 0.2s ease;
-    }
-    #darkModeToggle:hover {
-      color: #007bff;
-      transform: scale(1.1);
-    }
-
-    body.dark-mode #darkModeToggle {
-      color: #f0e68c;
-    }
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 0.85rem;
-      color: #777;
-      transition: color 0.5s ease;
-    }
-    .dark-mode .footer {
-      color: #bbb;
-    }
-  </style>
-</head>
-<body>
-  <button id="darkModeToggle" aria-label="Toggle dark mode">
-    <i class="fas fa-moon"></i> </button>
-
-  <div class="container">
-    <h2>Simulasi Keuangan</h2>
-    <div class="form-group">
-      <label for="jenisSimulasi">Pilih Jenis Perhitungan</label>
-      <select id="jenisSimulasi" onchange="ubahForm()">
-        <option value="kredit">KREDIT</option>
-        <option value="deposito">DEPOSITO</option>
-        <option value="tabungan">TABUNGAN</option>
-      </select>
-    </div>
-
-    <form id="formInput"></form>
-
-    <button onclick="hitungSimulasi()">HITUNG</button>
-
-    <div class="result-container" id="resultContainer">
-      <h3>Rincian Detail:</h3>
-      <div id="hasilSimulasi"></div>
-      <div id="cetakButton" style="display:none;">
-        <button onclick="cetakHasil()">🖨️ CETAK</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">
-    &copy; <span id="currentYear"></span> 4hli Prosesor
-  </div>
-
- <script>
-function cetakHasil() {
-  const hasil = document.getElementById("hasilSimulasi").innerHTML;
-  const newWindow = window.open("", "Cetak Hasil Simulasi", "width=800,height=600");
-  newWindow.document.write("<html><head><title>Cetak Hasil Simulasi</title>");
-  newWindow.document.write("<style>body { font-family: Arial; margin: 20px; } table { width: 100%; border-collapse: collapse; } table th, table td { border: 1px solid #ccc; padding: 8px; text-align: left; } table th { background: #eee; } table th, table td { white-space: nowrap; }</style>");
-  newWindow.document.write("</head><body><h2>Rincian Simulasi</h2>");
-  newWindow.document.write(infoCetak); 
-  const tableStart = hasil.indexOf("<table");
-  const tableHTML = tableStart !== -1 ? hasil.slice(tableStart) : "";
-  const cleanedTableHTML = tableHTML.replace("<div class=\"table-responsive\">", "").replace("</div>", "");
-  newWindow.document.write(cleanedTableHTML);
-  newWindow.document.write("</body></html>");
-  newWindow.document.close();
-  newWindow.print();
-}
-
-
-function updateBungaDeposito() {
-    const tenorSelect = document.getElementById("tenorDeposito");
-    const bungaInput = document.getElementById("bungaDeposito");
-    const selectedTenor = parseInt(tenorSelect.value);
-
-    if (isNaN(selectedTenor)) {
-        bungaInput.value = ""; 
-        return;
-    }
-
-    if (selectedTenor === 1) {
-        bungaInput.value = "4"; 
-    } else if (selectedTenor === 3 || selectedTenor === 6 || selectedTenor === 12) {
-        bungaInput.value = "4.25"; 
-    } else {
-        bungaInput.value = ""; 
-    }
-}
-
-function ubahForm() {
-  document.getElementById("hasilSimulasi").innerHTML = "";
-  document.getElementById("cetakButton").style.display = "none";
-  const resultContainer = document.getElementById("resultContainer");
-  resultContainer.style.opacity = "0";
-  resultContainer.style.transform = "translateY(20px)";
-  resultContainer.style.animation = "none";
-  void resultContainer.offsetWidth; 
-  resultContainer.style.animation = null; 
-
-  const jenis = document.getElementById("jenisSimulasi").value;
-  const formInput = document.getElementById("formInput");
-  
-  
-  if (jenis === "kredit") {
-    formInput.innerHTML = `
-      <div class="form-group">
-        <label for="pinjaman">Jumlah Pinjaman (Rp)</label>
-        <input type="text" id="pinjaman" oninput="formatRpInput(this)" onfocus="clearFormat(this)" onblur="formatRpInput(this)">
-      </div>
-      <div class="form-group">
-        <label for="tenor">Tenor (bulan)</label>
-        <input type="text" id="tenor">
-      </div>
-      <div class="form-group">
-        <label for="bunga">Bunga Tahunan (%)</label>
-        <input type="text" id="bunga">
-      </div>
-      <div class="form-group">
-        <label for="jenisKredit">Jenis Kredit</label>
-        <select id="jenisKredit">
-          <option value="flat">Flat</option>
-          <option value="sliding">Sliding</option>
-          <option value="efektif">Efektif</option>
-        </select>
-      </div>
-    `;
-  } else if (jenis === "deposito") {
-    formInput.innerHTML = `
-      <div class="form-group">
-        <label for="jumlahDeposito">Jumlah Deposito (Rp)</label>
-        <input type="text" id="jumlahDeposito" oninput="formatRpInput(this)" onfocus="clearFormat(this)" onblur="formatRpInput(this)">
-      </div>
-      <div class="form-group">
-        <label for="tenorDeposito">Tenor (bulan)</label>
-        <select id="tenorDeposito" onchange="updateBungaDeposito()">
-          <option value="">Pilih Tenor</option>
-          <option value="1">1 bulan</option>
-          <option value="3">3 bulan</option>
-          <option value="6">6 bulan</option>
-          <option value="12">12 bulan</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="bungaDeposito">Suku Bunga Tahunan (%)</label>
-        <input type="text" id="bungaDeposito" readonly>
-      </div>
-    `;
-   
-    document.getElementById("bungaDeposito").value = "";
-  } else if (jenis === "tabungan") {
-    formInput.innerHTML = `
-      <div class="form-group">
-        <label for="saldoAwalTabungan">Saldo Awal (Rp)</label>
-        <input type="text" id="saldoAwalTabungan" oninput="formatRpInput(this)" onfocus="clearFormat(this)" onblur="formatRpInput(this)">
-      </div>
-      <div class="form-group">
-        <label for="setoranBulananTabungan">Setoran Bulanan (Rp)</label>
-        <input type="text" id="setoranBulananTabungan" oninput="formatRpInput(this)" onfocus="clearFormat(this)" onblur="formatRpInput(this)">
-      </div>
-      <div class="form-group">
-        <label for="tenorTabungan">Jangka Waktu (bulan)</label>
-        <input type="text" id="tenorTabungan">
-      </div>
-      <div class="form-group">
-        <label for="bungaTahunanTabungan">Suku Bunga Tahunan (%)</label>
-        <input type="text" id="bungaTahunanTabungan">
-      </div>
-    `;
-  }
-}
-
-
-function formatRpInput(input) {
-  let value = input.value.replace(/[^\d]/g, "");
-  input.value = value ? "Rp " + parseInt(value, 10).toLocaleString("id-ID") : "";
-}
-
-
-function clearFormat(input) {
-  input.value = input.value.replace(/[^\d]/g, "");
-}
-
-
-function parseRupiah(str) {
-  return parseInt(str.replace(/[^\d]/g, ""), 10) || 0;
-}
-
-let infoCetak = ""; 
-
-
-function hitungSimulasi() {
-  const jenis = document.getElementById("jenisSimulasi").value;
-  const hasilEl = document.getElementById("hasilSimulasi");
-  const resultContainer = document.getElementById("resultContainer");
-  let html = "";
-  infoCetak = ""; 
-
-  
-  resultContainer.style.opacity = "0";
-  resultContainer.style.transform = "translateY(20px)";
-  resultContainer.style.animation = "none";
-  void resultContainer.offsetWidth; 
-  resultContainer.style.animation = null;
-
-  if (jenis === "kredit") {
-    const pinjaman = parseRupiah(document.getElementById("pinjaman").value);
-    const tenor = parseInt(document.getElementById("tenor").value);
-    const bungaTahunan = parseFloat(document.getElementById("bunga").value);
-    const jenisKredit = document.getElementById("jenisKredit").value;
-
-    if (!pinjaman || isNaN(tenor) || isNaN(bungaTahunan) || tenor <= 0 || bungaTahunan < 0) {
-      alert("Mohon isi semua kolom kredit dengan angka yang valid.");
-      hasilEl.innerHTML = "";
-      document.getElementById("cetakButton").style.display = "none";
-      return;
-    }
-
-    const bungaBulananRate = bungaTahunan / 12 / 100;
-    let sisa = pinjaman;
-
-    
-    infoCetak += `<p><strong>Jumlah Pinjaman:</strong> Rp ${pinjaman.toLocaleString("id-ID")}<br>
-    <strong>Tenor:</strong> ${tenor} bulan<br>
-    <strong>Jenis Kredit:</strong> ${jenisKredit.charAt(0).toUpperCase() + jenisKredit.slice(1)}</p>`;
-
-    html += "<div class='table-responsive'>";
-    html += "<table><tr><th>Bulan</th><th>Pokok</th><th>Bunga</th><th>Total</th><th>Sisa</th></tr>";
-
-    for (let i = 1; i <= tenor; i++) {
-      let pokok = 0, bunga = 0, total = 0;
-      if (jenisKredit === "flat") {
-        pokok = pinjaman / tenor;
-        bunga = pinjaman * bungaBulananRate;
-        total = pokok + bunga;
-      } else if (jenisKredit === "efektif") {
-        bunga = sisa * bungaBulananRate;
-        pokok = pinjaman / tenor; 
-        total = pokok + bunga;
-
-        if (i === tenor) {
-            pokok = sisa;
-            total = pokok + bunga;
+      .modal-dialog {
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
+        padding: 24px 20px 20px;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: var(--shadow-lg);
+        text-align: left;
+        position: relative;
+        animation: modalSlideIn 0.3s ease;
+      }
+      @keyframes modalSlideIn {
+        from {
+          transform: translateY(30px);
+          opacity: 0;
         }
-      } else if (jenisKredit === "sliding") { 
-        bunga = sisa * bungaBulananRate;
-        
-        if (i === tenor) { 
-            pokok = sisa;
-            total = pokok + bunga;
-        } else { 
-            pokok = 0;
-            total = bunga;
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      .modal-close {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 1.3rem;
+        cursor: pointer;
+        color: var(--text-secondary);
+        transition: color var(--transition);
+        line-height: 1;
+      }
+      .modal-close:hover {
+        color: var(--danger);
+      }
+      .modal-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        color: var(--primary);
+      }
+      .modal-body {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: var(--text);
+      }
+
+      /* SLIDER */
+      .slider-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .slider-row input[type="range"] {
+        flex: 1;
+        accent-color: var(--primary);
+        height: 6px;
+        cursor: pointer;
+      }
+
+      .slider-value {
+        min-width: 55px;
+        text-align: right;
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--primary);
+      }
+
+      /* BUTTONS */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 24px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        font-family: inherit;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: all var(--transition);
+        border: 1.5px solid transparent;
+        white-space: nowrap;
+        min-width: 100px;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--primary);
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-hover);
+        border-color: var(--primary-hover);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--text);
+        border-color: var(--border);
+      }
+
+      .btn-outline:hover {
+        background: var(--bg-subtle);
+        border-color: var(--text-tertiary);
+      }
+
+      .btn-success {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+
+      .btn-success:hover {
+        background: var(--accent-hover);
+        border-color: var(--accent-hover);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow);
+      }
+
+      .btn-block {
+        width: 100%;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .btn-group .btn {
+        flex: 1;
+        min-width: 120px;
+      }
+
+      /* ─────────────────────────────────── */
+      /* INFO CARDS (Step 3 - detail info)  */
+      /* ─────────────────────────────────── */
+      .info-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      @media (max-width: 420px) {
+        .info-cards-grid {
+          grid-template-columns: 1fr;
         }
       }
 
-      sisa -= pokok;
-
-      html += `<tr><td>${i}</td><td>Rp ${Math.round(pokok).toLocaleString("id-ID")}</td><td>Rp ${Math.round(bunga).toLocaleString("id-ID")}</td><td>Rp ${Math.round(total).toLocaleString("id-ID")}</td><td>Rp ${Math.max(0, Math.round(sisa)).toLocaleString("id-ID")}</td></tr>`;
-    }
-    html += "</table>";
-    html += "</div>"; 
-    document.getElementById("cetakButton").style.display = "block";
-  } else if (jenis === "deposito") {
-    const nominal = parseRupiah(document.getElementById("jumlahDeposito").value);
-    const tenor = parseInt(document.getElementById("tenorDeposito").value);
-    const bunga = parseFloat(document.getElementById("bungaDeposito").value);
-    const pajak = 20; 
-
-    if (!nominal || isNaN(tenor) || isNaN(bunga) || nominal <= 0 || tenor <= 0 || bunga < 0) {
-      alert("Mohon isi semua kolom deposito dengan angka yang valid. Pastikan tenor sudah dipilih.");
-      hasilEl.innerHTML = "";
-      document.getElementById("cetakButton").style.display = "none";
-      return;
-    }
-    
-    const hari = tenor * 30;
-    const bungaKotor = (nominal * bunga / 100) / 365 * hari;
-    
-    const nilaiPajak = bungaKotor * pajak / 100;
-    const bungaBersih = bungaKotor - nilaiPajak;
-
-    infoCetak += `<p><strong>Jumlah Deposito:</strong> Rp ${nominal.toLocaleString("id-ID")}<br>
-    <strong>Tenor:</strong> ${tenor} bulan<br>
-    <strong>Bunga Per Tahun:</strong> ${bunga}%</p>`;
-
-    
-    html += "<div class='table-responsive'>";
-    html += "<table>";
-    html += "<tr><th>Keterangan</th><th>Nominal</th></tr>";
-    html += `<tr><td>Bunga Kotor</td><td>Rp ${Math.round(bungaKotor).toLocaleString("id-ID")}</td></tr>`;
-    html += `<tr><td>Pajak Bunga</td><td>Rp ${Math.round(nilaiPajak).toLocaleString("id-ID")}</td></tr>`;
-    html += `<tr><td>Bunga Bersih Diterima</td><td><strong>Rp ${Math.round(bungaBersih).toLocaleString("id-ID")}</strong></td></tr>`;
-    html += `<tr><td>Saldo Akhir</td><td><strong>Rp ${Math.round(nominal + bungaBersih).toLocaleString("id-ID")}</strong></td></tr>`;
-    html += "</table>";
-    html += "</div>";
-    
-
-    document.getElementById("cetakButton").style.display = "none";
-  } else if (jenis === "tabungan") { 
-    let currentSaldo = parseRupiah(document.getElementById("saldoAwalTabungan").value);
-    const setoranBulananInput = parseRupiah(document.getElementById("setoranBulananTabungan").value);
-    const tenorTabungan = parseInt(document.getElementById("tenorTabungan").value);
-    const bungaTahunanTabungan = parseFloat(document.getElementById("bungaTahunanTabungan").value);
-
-    const BATAS_SALDO_PAJAK = 7500000; 
-    const PAJAK_BUNGA_RATE = 0.20; 
-
-    if (isNaN(currentSaldo) || isNaN(setoranBulananInput) || isNaN(tenorTabungan) || isNaN(bungaTahunanTabungan) || currentSaldo < 0 || setoranBulananInput < 0 || tenorTabungan <= 0 || bungaTahunanTabungan < 0) {
-      alert("Mohon isi semua kolom tabungan dengan angka yang valid.");
-      hasilEl.innerHTML = "";
-      document.getElementById("cetakButton").style.display = "none";
-      return;
-    }
-
-    const bungaBulananRate = (bungaTahunanTabungan / 100) / 12;
-
-    infoCetak += `<p><strong>Tabungan:</strong> Rp ${currentSaldo.toLocaleString("id-ID")}<br>
-    <strong>Setoran Bulanan:</strong> Rp ${setoranBulananInput.toLocaleString("id-ID")}<br>
-    <strong>Jangka Waktu:</strong> ${tenorTabungan} bulan<br>
-    <strong>Bunga Per Tahun:</strong> ${bungaTahunanTabungan}%<br>
-    </p>`;
-
-    html += "<div class='table-responsive'>";
-    html += "<table><tr><th>Bulan</th><th>Saldo</th><th>Setoran Per Bulan</th><th>Bunga Kotor</th><th>Pajak</th><th>Bunga Bersih</th><th>Saldo Akhir</th></tr>";
-
-    let totalBungaBersih = 0;
-    for (let i = 1; i <= tenorTabungan; i++) {
-      let saldoAwalBulanIniTampil = currentSaldo; 
-      
-      let setoranBulanIni = (i === 1) ? 0 : setoranBulananInput; 
-
-      let saldoUntukBungaCalculation = currentSaldo + setoranBulanIni; 
-      
-      let bungaKotorBulanan = saldoUntukBungaCalculation * bungaBulananRate;
-      
-      let pajakBungaBulanan = 0;
-      if (saldoUntukBungaCalculation + bungaKotorBulanan >= BATAS_SALDO_PAJAK) { 
-          pajakBungaBulanan = bungaKotorBulanan * PAJAK_BUNGA_RATE;
+      .info-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        border-radius: var(--radius);
+        border: 1.5px solid var(--border-light);
+        background: var(--bg-subtle);
+        transition: all var(--transition);
       }
-      
-      let bungaBersihBulanan = bungaKotorBulanan - pajakBungaBulanan;
 
-      currentSaldo = saldoUntukBungaCalculation + bungaBersihBulanan;
-      totalBungaBersih += bungaBersihBulanan;
+      .info-card .info-card-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
 
-      html += `<tr>
+      .info-card .info-card-body {
+        min-width: 0;
+      }
+
+      .info-card .info-card-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-bottom: 2px;
+      }
+
+      .info-card .info-card-value {
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--text);
+        word-break: break-all;
+      }
+
+      /* Variasi warna info card */
+      .info-card.icon-blue .info-card-icon {
+        background: var(--primary-light);
+        color: var(--primary);
+      }
+      .info-card.icon-green .info-card-icon {
+        background: var(--accent-light);
+        color: var(--accent);
+      }
+      .info-card.icon-purple .info-card-icon {
+        background: var(--info-light);
+        color: var(--info);
+      }
+      .info-card.icon-amber .info-card-icon {
+        background: var(--warning-light);
+        color: var(--warning);
+      }
+
+      /* ─────────────────────────────────── */
+      /* HIGHLIGHT CARD (Step 3 - total)     */
+      /* ─────────────────────────────────── */
+      .highlight-card {
+        background: linear-gradient(135deg, var(--primary-soft) 0%, var(--info-soft) 100%);
+        border: 1.5px solid var(--primary);
+        border-radius: var(--radius);
+        padding: 24px 20px;
+        text-align: center;
+        margin-bottom: 16px;
+        transition: all var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .highlight-card::before {
+        content: "";
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: var(--primary);
+        opacity: 0.06;
+      }
+
+      .highlight-card .hl-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-bottom: 6px;
+        position: relative;
+      }
+
+      .highlight-card .hl-value {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--primary);
+        word-break: break-all;
+        position: relative;
+        line-height: 1.2;
+      }
+
+      .highlight-card .hl-sub {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-top: 6px;
+        position: relative;
+      }
+
+      /* ─────────────────────────────────── */
+      /* TABLE (Step 3)                      */
+      /* ─────────────────────────────────── */
+      .result-table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: var(--radius);
+        border: 1px solid var(--border-light);
+        margin-top: 12px;
+        box-shadow: var(--shadow-sm);
+        background: var(--card-bg);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.84rem;
+        min-width: 500px;
+      }
+
+      thead th {
+        background: var(--text);
+        color: #00a1d2;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+        padding: 12px 14px;
+        text-align: right;
+        border: none;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+      }
+
+      thead th:first-child {
+        text-align: center;
+        border-radius: var(--radius) 0 0 0;
+      }
+
+      thead th:last-child {
+        border-radius: 0 var(--radius) 0 0;
+      }
+
+      tbody td {
+        padding: 11px 14px;
+        text-align: right;
+        border-bottom: 1px solid var(--border-light);
+        color: var(--text);
+        font-variant-numeric: tabular-nums;
+        font-family: "Inter", monospace;
+        font-feature-settings: "tnum";
+      }
+
+      tbody td:first-child {
+        text-align: center;
+        font-weight: 600;
+        color: var(--text-secondary);
+      }
+
+      /* Zebra striping */
+      tbody tr:nth-child(even) td {
+        background: var(--table-stripe);
+      }
+
+      /* Hover effect */
+      tbody tr:hover td {
+        background: var(--table-hover);
+        transition: background 0.15s ease;
+      }
+
+      /* Total row */
+      .total-row td {
+        font-weight: 700;
+        background: var(--primary-light) !important;
+        color: var(--primary) !important;
+        border-top: 2px solid var(--primary) !important;
+        font-size: 0.9rem;
+        padding: 13px 14px;
+      }
+
+      .total-row td:first-child {
+        color: var(--primary) !important;
+      }
+
+      /* Badge untuk kolom tertentu (optional) */
+      .badge-positive {
+        display: inline-block;
+        background: var(--accent-light);
+        color: var(--accent);
+        padding: 2px 8px;
+        border-radius: 20px;
+        font-size: 0.72rem;
+        font-weight: 600;
+      }
+
+      .badge-neutral {
+        display: inline-block;
+        background: var(--warning-light);
+        color: var(--warning);
+        padding: 2px 8px;
+        border-radius: 20px;
+        font-size: 0.72rem;
+        font-weight: 600;
+      }
+
+      /* Summary text di bawah tabel */
+      .table-summary {
+        margin-top: 14px;
+        padding: 12px 16px;
+        background: var(--bg-subtle);
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--border-light);
+      }
+
+      .table-summary i {
+        color: var(--accent);
+      }
+
+      /* FOOTER */
+      .app-footer {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        opacity: 0.7;
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 480px) {
+        .kredit-type-row {
+          grid-template-columns: 1fr;
+          gap: 6px;
+        }
+
+        .btn-group {
+          flex-direction: column;
+        }
+
+        .btn-group .btn {
+          width: 100%;
+        }
+
+        .stepper {
+          gap: 4px;
+        }
+
+        .step-dot {
+          width: 30px;
+          height: 30px;
+          font-size: 0.75rem;
+        }
+
+        .highlight-card .hl-value {
+          font-size: 1.6rem;
+        }
+
+        .info-cards-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+        }
+
+        .info-card {
+          padding: 10px 12px;
+          gap: 8px;
+        }
+
+        .info-card .info-card-icon {
+          width: 34px;
+          height: 34px;
+          font-size: 0.9rem;
+        }
+
+        .info-card .info-card-value {
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="app-container">
+      <!-- HEADER -->
+      <div class="app-header">
+        <div class="app-title"><i class="fas fa-calculator"></i> Simulasi Keuangan</div>
+        <div class="header-actions">
+          <button id="darkModeToggle" aria-label="Toggle dark mode" title="Mode Gelap / Terang">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEPPER -->
+      <div class="stepper">
+        <div class="step-dot active" id="stepDot1">1</div>
+        <div class="step-line" id="stepLine1"></div>
+        <div class="step-dot" id="stepDot2">2</div>
+        <div class="step-line" id="stepLine2"></div>
+        <div class="step-dot" id="stepDot3">3</div>
+      </div>
+      <div class="step-label-row">
+        <span class="active-label" id="stepLabel1">Pilih Simulasi</span>
+        <span id="stepLabel2">Isi Data</span>
+        <span id="stepLabel3">Hasil</span>
+      </div>
+
+      <!-- MAIN CARD -->
+      <div class="main-card" id="mainCard">
+        <!-- STEP 1: PILIH SIMULASI -->
+        <div class="step-panel active" id="panelStep1">
+          <h3 style="margin-bottom: 16px; text-align: center; font-weight: 600">Pilih Jenis Perhitungan</h3>
+          <div class="choice-grid" id="choiceGrid">
+            <div class="choice-card" data-value="kredit" tabindex="0" role="button" aria-label="Kredit">
+              <div class="choice-icon"><i class="fas fa-hand-holding-usd"></i></div>
+              <div class="choice-title">Kredit</div>
+              <div class="choice-desc">Hitung cicilan & angsuran pinjaman</div>
+            </div>
+            <div class="choice-card" data-value="deposito" tabindex="0" role="button" aria-label="Deposito">
+              <div class="choice-icon"><i class="fas fa-piggy-bank"></i></div>
+              <div class="choice-title">Deposito</div>
+              <div class="choice-desc">Simulasi bunga deposito berjangka</div>
+            </div>
+            <div class="choice-card" data-value="tabungan" tabindex="0" role="button" aria-label="Tabungan">
+              <div class="choice-icon"><i class="fas fa-wallet"></i></div>
+              <div class="choice-title">Tabungan</div>
+              <div class="choice-desc">Proyeksi saldo & setoran rutin</div>
+            </div>
+          </div>
+          <div class="btn-group" style="margin-top: 20px">
+            <button class="btn btn-primary btn-block" id="btnLanjutKeStep2" disabled>Lanjut <i class="fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+
+        <!-- STEP 2: ISI DATA -->
+        <div class="step-panel" id="panelStep2">
+          <h3 style="margin-bottom: 20px; text-align: center; font-weight: 600" id="judulStep2">Isi Data Simulasi</h3>
+          <form id="formStep2" autocomplete="off"></form>
+          <div class="btn-group">
+            <button class="btn btn-outline" id="btnKembaliStep1"><i class="fas fa-arrow-left"></i> Kembali</button>
+            <button class="btn btn-primary" id="btnHitung"><i class="fas fa-play"></i> Hitung</button>
+          </div>
+          <div id="formErrors" style="margin-top: 12px"></div>
+        </div>
+
+        <!-- STEP 3: HASIL -->
+        <div class="step-panel" id="panelStep3">
+          <h3 style="margin-bottom: 16px; text-align: center; font-weight: 600">Hasil Simulasi</h3>
+          <div id="infoCardsContainer"></div>
+          <div id="highlightCardContainer"></div>
+          <div id="hasilDetail"></div>
+          <div class="btn-group">
+            <button class="btn btn-outline" id="btnUbahInput"><i class="fas fa-edit"></i> Ubah Input</button>
+            <button class="btn btn-success" id="btnCetak" style="display: none"><i class="fas fa-print"></i> Cetak</button>
+          </div>
+        </div>
+      </div>
+      <!-- POP-UP MODAL -->
+      <div class="modal-backdrop" id="kreditModal">
+        <div class="modal-dialog">
+          <button class="modal-close" id="modalClose">&times;</button>
+          <div class="modal-title" id="modalTitle"></div>
+          <div class="modal-body" id="modalBody"></div>
+        </div>
+      </div>
+      <div class="app-footer">&copy; <span id="currentYear"></span> 4hli Prosesor</div>
+    </div>
+
+    <script>
+      (function () {
+        // ──────────────────────────────────────
+        // STATE
+        // ──────────────────────────────────────
+        let currentStep = 1;
+        let selectedSimulasi = null;
+        let selectedKreditType = "flat";
+        let infoCetak = "";
+        let hasilHTML = "";
+        let highlightHTML = "";
+        let infoCardsHTML = "";
+
+        // ──────────────────────────────────────
+        // DOM REFS
+        // ──────────────────────────────────────
+        const $ = (s) => document.querySelector(s);
+        const $$ = (s) => document.querySelectorAll(s);
+
+        const panel1 = $("#panelStep1");
+        const panel2 = $("#panelStep2");
+        const panel3 = $("#panelStep3");
+        const formStep2 = $("#formStep2");
+        const choiceCards = $$(".choice-card");
+        const btnLanjut = $("#btnLanjutKeStep2");
+        const btnKembali = $("#btnKembaliStep1");
+        const btnHitung = $("#btnHitung");
+        const btnUbah = $("#btnUbahInput");
+        const btnCetak = $("#btnCetak");
+        const highlightContainer = $("#highlightCardContainer");
+        const infoCardsContainer = $("#infoCardsContainer");
+        const hasilDetail = $("#hasilDetail");
+        const formErrors = $("#formErrors");
+        const judulStep2 = $("#judulStep2");
+        const darkToggle = $("#darkModeToggle");
+        const body = document.body;
+
+        // Stepper
+        const stepDots = [$("#stepDot1"), $("#stepDot2"), $("#stepDot3")];
+        const stepLines = [$("#stepLine1"), $("#stepLine2")];
+        const stepLabels = [$("#stepLabel1"), $("#stepLabel2"), $("#stepLabel3")];
+
+        // ──────────────────────────────────────
+        // FUNCTIONS: STEPPER UI
+        // ──────────────────────────────────────
+        function updateStepper(step) {
+          stepDots.forEach((dot, i) => {
+            dot.classList.remove("active", "done");
+            if (i + 1 < step) dot.classList.add("done");
+            if (i + 1 === step) dot.classList.add("active");
+          });
+          stepLines.forEach((line, i) => {
+            line.classList.toggle("done", i + 1 < step);
+          });
+          stepLabels.forEach((label, i) => {
+            label.classList.remove("active-label", "done-label");
+            if (i + 1 < step) label.classList.add("done-label");
+            if (i + 1 === step) label.classList.add("active-label");
+          });
+        }
+
+        function goToStep(step) {
+          currentStep = step;
+          [panel1, panel2, panel3].forEach((p) => p.classList.remove("active"));
+          if (step === 1) panel1.classList.add("active");
+          if (step === 2) panel2.classList.add("active");
+          if (step === 3) panel3.classList.add("active");
+          updateStepper(step);
+        }
+
+        // ──────────────────────────────────────
+        // FUNCTIONS: RUPIAH FORMAT
+        // ──────────────────────────────────────
+        function toNumber(str) {
+          if (!str) return NaN;
+          return parseInt(str.replace(/[^\d]/g, ""), 10) || 0;
+        }
+
+        function formatRupiah(num) {
+          return "Rp " + Math.round(num).toLocaleString("id-ID");
+        }
+
+        function formatRupiahInput(el) {
+          let val = el.value.replace(/[^\d]/g, "");
+          if (val === "") {
+            el.value = "";
+            return;
+          }
+          el.value = "Rp " + parseInt(val, 10).toLocaleString("id-ID");
+        }
+
+        function clearRupiahFormat(el) {
+          el.value = el.value.replace(/[^\d]/g, "");
+        }
+
+        function parseRupiahInput(el) {
+          return toNumber(el.value);
+        }
+
+        // ──────────────────────────────────────
+        // FUNCTIONS: BUNGA PARSING
+        // ──────────────────────────────────────
+        function parseBunga(str) {
+          if (!str) return NaN;
+          let cleaned = str.replace(/,/g, ".").replace(/[^\d.]/g, "");
+          let parts = cleaned.split(".");
+          if (parts.length > 2) {
+            cleaned = parts[0] + "." + parts.slice(1).join("");
+          }
+          return parseFloat(cleaned);
+        }
+
+        function formatBungaForDisplay(val) {
+          if (isNaN(val)) return "";
+          return val.toString().replace(".", ",");
+        }
+
+        // ──────────────────────────────────────
+        // FUNCTIONS: BUILD FORM STEP 2
+        // ──────────────────────────────────────
+        function buildFormKredit() {
+          return `
+                <div class="form-group">
+                  <label class="form-label" for="pinjaman">
+                    Jumlah Pinjaman
+                    <span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">
+                      ?<span class="tooltip-bubble">Total uang yang ingin Anda pinjam. Contoh: Rp 50.000.000</span>
+                    </span>
+                  </label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix">Rp</span>
+                    <input type="text" class="form-input" id="pinjaman" placeholder="50.000.000"
+                      oninput="SimulasiApp.formatRupiahOnInput(this)" onfocus="SimulasiApp.clearOnFocus(this)" onblur="SimulasiApp.formatOnBlur(this)">
+                  </div>
+                  <div class="error-msg" id="errPinjaman"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="tenorKredit">
+                    Tenor (bulan)
+                    <span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">
+                      ?<span class="tooltip-bubble">Lama waktu pinjaman dalam bulan. Maksimal 36 bulan.</span>
+                    </span>
+                  </label>
+                  <select class="form-select" id="tenorKredit">
+                    <option value="">Pilih Tenor</option>
+                    ${Array.from({ length: 36 }, (_, i) => i + 1)
+                      .map((m) => `<option value="${m}">${m} bulan</option>`)
+                      .join("")}
+                  </select>
+                  <div class="error-msg" id="errTenorKredit"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="bungaKredit">
+                    Bunga Tahunan (%)
+                    <span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">
+                      ?<span class="tooltip-bubble">Suku bunga per tahun. Gunakan koma untuk desimal, contoh: 12,5</span>
+                    </span>
+                  </label>
+                  <div class="slider-row">
+                    <input type="range" id="sliderBungaKredit" min="0" max="30" step="0.05" value="10" oninput="SimulasiApp.syncSliderToInput(this, 'bungaKredit')">
+                    <input type="text" class="form-input" id="bungaKredit" value="10" style="width:90px;text-align:center;padding:10px;" oninput="SimulasiApp.syncInputToSlider(this, 'sliderBungaKredit')" placeholder="10">
+                    <span class="slider-value" id="bungaValDisplay">10%</span>
+                  </div>
+                  <div class="error-msg" id="errBungaKredit"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Jenis Kredit</label>
+                  <div class="kredit-type-row" id="kreditTypeRow">
+                    <div class="kredit-type-card selected" data-kt="flat" tabindex="0">
+                      <span class="kt-icon"><i class="fas fa-equals"></i></span> Flat
+                      <span class="kredit-info-icon" data-info="flat" tabindex="0" role="button" aria-label="Info Flat">
+                        <i class="fas fa-question"></i>
+                      </span>
+                    </div>
+                    <div class="kredit-type-card" data-kt="efektif" tabindex="0">
+                      <span class="kt-icon"><i class="fas fa-chart-line"></i></span> Efektif
+                      <span class="kredit-info-icon" data-info="efektif" tabindex="0" role="button" aria-label="Info Efektif">
+                        <i class="fas fa-question"></i>
+                      </span>
+                    </div>
+                    <div class="kredit-type-card" data-kt="sliding" tabindex="0">
+                      <span class="kt-icon"><i class="fas fa-arrow-down"></i></span> Sliding
+                      <span class="kredit-info-icon" data-info="sliding" tabindex="0" role="button" aria-label="Info Sliding">
+                        <i class="fas fa-question"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+          `;
+        }
+
+        function buildFormDeposito() {
+          return `
+                <div class="form-group">
+                  <label class="form-label" for="jumlahDeposito">
+                    Jumlah Deposito
+                    <span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">
+                      ?<span class="tooltip-bubble">Total dana yang akan didepositokan. Contoh: Rp 100.000.000</span>
+                    </span>
+                  </label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix">Rp</span>
+                    <input type="text" class="form-input" id="jumlahDeposito" placeholder="100.000.000"
+                      oninput="SimulasiApp.formatRupiahOnInput(this)" onfocus="SimulasiApp.clearOnFocus(this)" onblur="SimulasiApp.formatOnBlur(this)">
+                  </div>
+                  <div class="error-msg" id="errJumlahDeposito"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="tenorDeposito">
+                    Tenor
+                    <span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">
+                      ?<span class="tooltip-bubble">Pilih jangka waktu deposito. Bunga akan disesuaikan otomatis.</span>
+                    </span>
+                  </label>
+                  <select class="form-select" id="tenorDeposito" onchange="SimulasiApp.updateBungaDeposito()">
+                    <option value="">Pilih Tenor</option>
+                    <option value="1">1 bulan</option>
+                    <option value="3">3 bulan</option>
+                    <option value="6">6 bulan</option>
+                    <option value="12">12 bulan</option>
+                  </select>
+                  <div class="error-msg" id="errTenorDeposito"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="bungaDeposito">
+                    Suku Bunga Tahunan (%)
+                  </label>
+                  <input type="text" class="form-input" id="bungaDeposito" readonly style="background:var(--bg-subtle);font-weight:700;color:var(--accent);">
+                  <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:4px;">
+                    <i class="fas fa-info-circle"></i> Bunga otomatis sesuai tenor: 1 bln = 4%, 3/6/12 bln = 4,25%
+                  </div>
+                </div>`;
+        }
+
+        function buildFormTabungan() {
+          return `
+                <div class="form-group">
+                  <label class="form-label" for="saldoAwalTabungan">
+                    Saldo Awal
+                    <span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">
+                      ?<span class="tooltip-bubble">Saldo tabungan Anda saat ini. Contoh: Rp 5.000.000</span>
+                    </span>
+                  </label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix">Rp</span>
+                    <input type="text" class="form-input" id="saldoAwalTabungan" placeholder="5.000.000"
+                      oninput="SimulasiApp.formatRupiahOnInput(this)" onfocus="SimulasiApp.clearOnFocus(this)" onblur="SimulasiApp.formatOnBlur(this)">
+                  </div>
+                  <div class="error-msg" id="errSaldoAwal"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="setoranBulananTabungan">
+                    Setoran Bulanan
+                    <span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">
+                      ?<span class="tooltip-bubble">Jumlah yang akan Anda setor setiap bulan. Contoh: Rp 1.000.000</span>
+                    </span>
+                  </label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix">Rp</span>
+                    <input type="text" class="form-input" id="setoranBulananTabungan" placeholder="1.000.000"
+                      oninput="SimulasiApp.formatRupiahOnInput(this)" onfocus="SimulasiApp.clearOnFocus(this)" onblur="SimulasiApp.formatOnBlur(this)">
+                  </div>
+                  <div class="error-msg" id="errSetoran"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="tenorTabungan">
+                    Jangka Waktu (bulan)
+                    <span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">
+                      ?<span class="tooltip-bubble">Berapa lama Anda akan menabung. Maksimal 120 bulan (10 tahun).</span>
+                    </span>
+                  </label>
+                  <input type="number" class="form-input" id="tenorTabungan" placeholder="12" min="1" max="120" step="1">
+                  <div class="error-msg" id="errTenorTabungan"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="bungaTahunanTabungan">
+                    Suku Bunga Tahunan (%)
+                    <span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">
+                      ?<span class="tooltip-bubble">Bunga tabungan per tahun. Gunakan koma untuk desimal, contoh: 3,5</span>
+                    </span>
+                  </label>
+                  <div class="slider-row">
+                    <input type="range" id="sliderBungaTabungan" min="0" max="15" step="0.05" value="3" oninput="SimulasiApp.syncSliderToInput(this, 'bungaTahunanTabungan')">
+                    <input type="text" class="form-input" id="bungaTahunanTabungan" value="3" style="width:90px;text-align:center;padding:10px;" oninput="SimulasiApp.syncInputToSlider(this, 'sliderBungaTabungan')" placeholder="3">
+                    <span class="slider-value" id="bungaTabValDisplay">3%</span>
+                  </div>
+                  <div class="error-msg" id="errBungaTabungan"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                </div>`;
+        }
+
+        function renderFormStep2() {
+          let html = "";
+          if (selectedSimulasi === "kredit") {
+            html = buildFormKredit();
+            judulStep2.textContent = "Data Simulasi Kredit";
+          } else if (selectedSimulasi === "deposito") {
+            html = buildFormDeposito();
+            judulStep2.textContent = "Data Simulasi Deposito";
+          } else if (selectedSimulasi === "tabungan") {
+            html = buildFormTabungan();
+            judulStep2.textContent = "Data Simulasi Tabungan";
+          }
+          formStep2.innerHTML = html;
+          formErrors.innerHTML = "";
+          selectedKreditType = "flat";
+
+          if (selectedSimulasi === "kredit") {
+            const ktCards = $$("#kreditTypeRow .kredit-type-card");
+            ktCards.forEach((card) => {
+              card.addEventListener("click", function () {
+                ktCards.forEach((c) => c.classList.remove("selected"));
+                this.classList.add("selected");
+                selectedKreditType = this.dataset.kt;
+              });
+              card.addEventListener("keydown", function (e) {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  this.click();
+                }
+              });
+            });
+          }
+          restoreFormData();
+        }
+
+        // ──────────────────────────────────────
+        // SESSION STORAGE
+        // ──────────────────────────────────────
+        function saveFormData() {
+          if (!selectedSimulasi) return;
+          const data = {};
+          const prefix = selectedSimulasi;
+          const ids =
+            {
+              kredit: ["pinjaman", "tenorKredit", "bungaKredit"],
+              deposito: ["jumlahDeposito", "tenorDeposito", "bungaDeposito"],
+              tabungan: ["saldoAwalTabungan", "setoranBulananTabungan", "tenorTabungan", "bungaTahunanTabungan"],
+            }[selectedSimulasi] || [];
+
+          ids.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) data[id] = el.value;
+          });
+          if (selectedSimulasi === "kredit") {
+            data["kreditType"] = selectedKreditType;
+          }
+          sessionStorage.setItem("simulasiData_" + prefix, JSON.stringify(data));
+          sessionStorage.setItem("simulasiType", selectedSimulasi);
+        }
+
+        function restoreFormData() {
+          if (!selectedSimulasi) return;
+          const raw = sessionStorage.getItem("simulasiData_" + selectedSimulasi);
+          if (!raw) return;
+          try {
+            const data = JSON.parse(raw);
+            Object.keys(data).forEach((key) => {
+              const el = document.getElementById(key);
+              if (el && key !== "kreditType") {
+                el.value = data[key];
+                if (["pinjaman", "jumlahDeposito", "saldoAwalTabungan", "setoranBulananTabungan"].includes(key) && el.value && !el.value.startsWith("Rp")) {
+                  formatRupiahInput(el);
+                }
+                if (key === "bungaKredit") {
+                  const slider = $("#sliderBungaKredit");
+                  if (slider) {
+                    const val = parseBunga(data[key]);
+                    if (!isNaN(val)) slider.value = val;
+                    updateBungaDisplay("bungaKredit", "bungaValDisplay");
+                  }
+                }
+                if (key === "bungaTahunanTabungan") {
+                  const slider = $("#sliderBungaTabungan");
+                  if (slider) {
+                    const val = parseBunga(data[key]);
+                    if (!isNaN(val)) slider.value = val;
+                    updateBungaDisplay("bungaTahunanTabungan", "bungaTabValDisplay");
+                  }
+                }
+              }
+            });
+            if (data["kreditType"] && selectedSimulasi === "kredit") {
+              selectedKreditType = data["kreditType"];
+              const ktCards = $$("#kreditTypeRow .kredit-type-card");
+              ktCards.forEach((c) => {
+                c.classList.toggle("selected", c.dataset.kt === selectedKreditType);
+              });
+            }
+          } catch (e) {
+            /* ignore */
+          }
+        }
+
+        // ──────────────────────────────────────
+        // BUNGA DEPOSITO UPDATE
+        // ──────────────────────────────────────
+        window.updateBungaDeposito = function () {
+          const tenor = parseInt($("#tenorDeposito")?.value);
+          const bungaInput = $("#bungaDeposito");
+          if (!bungaInput) return;
+          if (isNaN(tenor)) {
+            bungaInput.value = "";
+          } else if (tenor === 1) {
+            bungaInput.value = "4%";
+          } else {
+            bungaInput.value = "4,25%";
+          }
+          saveFormData();
+        };
+
+        // ──────────────────────────────────────
+        // SLIDER SYNC
+        // ──────────────────────────────────────
+        function updateBungaDisplay(inputId, displayId) {
+          const input = $("#" + inputId);
+          const display = $("#" + displayId);
+          if (!input || !display) return;
+          const val = parseBunga(input.value);
+          if (!isNaN(val)) {
+            display.textContent = val.toFixed(2).replace(".", ",") + "%";
+          } else {
+            display.textContent = "-";
+          }
+        }
+
+        window.syncSliderToInput = function (slider, inputId) {
+          const input = $("#" + inputId);
+          if (!input) return;
+          input.value = parseFloat(slider.value).toString().replace(".", ",");
+          const displayId = inputId === "bungaKredit" ? "bungaValDisplay" : "bungaTabValDisplay";
+          updateBungaDisplay(inputId, displayId);
+          saveFormData();
+        };
+
+        window.syncInputToSlider = function (input, sliderId) {
+          const slider = $("#" + sliderId);
+          if (!slider) return;
+          const val = parseBunga(input.value);
+          if (!isNaN(val) && val >= parseFloat(slider.min) && val <= parseFloat(slider.max)) {
+            slider.value = val;
+          }
+          const displayId = input.id === "bungaKredit" ? "bungaValDisplay" : "bungaTabValDisplay";
+          updateBungaDisplay(input.id, displayId);
+          saveFormData();
+        };
+
+        // ──────────────────────────────────────
+        // RUPIAH INPUT HANDLERS (global)
+        // ──────────────────────────────────────
+        window.formatRupiahOnInput = function (el) {
+          let val = el.value.replace(/[^\d]/g, "");
+          if (val === "") {
+            el.value = "";
+            saveFormData();
+            return;
+          }
+          el.value = "Rp " + parseInt(val, 10).toLocaleString("id-ID");
+          saveFormData();
+        };
+        window.clearOnFocus = function (el) {
+          el.value = el.value.replace(/[^\d]/g, "");
+        };
+        window.formatOnBlur = function (el) {
+          formatRupiahInput(el);
+          saveFormData();
+        };
+
+        // ──────────────────────────────────────
+        // VALIDATION
+        // ──────────────────────────────────────
+        function showError(id, msg) {
+          const errEl = $("#err" + id);
+          if (errEl) {
+            errEl.classList.add("show");
+            errEl.querySelector("span").textContent = msg;
+          }
+          const input = $("#" + id);
+          if (input) input.classList.add("input-error");
+        }
+
+        function clearErrors() {
+          $$(".error-msg").forEach((e) => e.classList.remove("show"));
+          $$(".form-input, .form-select").forEach((e) => e.classList.remove("input-error"));
+          formErrors.innerHTML = "";
+        }
+
+        function validateStep2() {
+          clearErrors();
+          let errors = [];
+          if (selectedSimulasi === "kredit") {
+            const pinjaman = parseRupiahInput($("#pinjaman"));
+            const tenor = parseInt($("#tenorKredit").value);
+            const bunga = parseBunga($("#bungaKredit").value);
+            if (!pinjaman || pinjaman < 100000) {
+              showError("Pinjaman", "Minimal Rp 100.000");
+              errors.push("Jumlah pinjaman minimal Rp 100.000");
+            }
+            if (!tenor || tenor < 1 || tenor > 36) {
+              showError("TenorKredit", "Pilih tenor 1-36 bulan");
+              errors.push("Tenor harus dipilih (1-36 bulan)");
+            }
+            if (isNaN(bunga) || bunga < 0 || bunga > 30) {
+              showError("BungaKredit", "Bunga harus 0-30%");
+              errors.push("Bunga tahunan harus antara 0% - 30%");
+            }
+          } else if (selectedSimulasi === "deposito") {
+            const jumlah = parseRupiahInput($("#jumlahDeposito"));
+            const tenor = parseInt($("#tenorDeposito").value);
+            if (!jumlah || jumlah < 1000000) {
+              showError("JumlahDeposito", "Minimal Rp 1.000.000");
+              errors.push("Jumlah deposito minimal Rp 1.000.000");
+            }
+            if (!tenor || isNaN(tenor)) {
+              showError("TenorDeposito", "Pilih tenor deposito");
+              errors.push("Tenor deposito harus dipilih");
+            }
+          } else if (selectedSimulasi === "tabungan") {
+            const saldo = parseRupiahInput($("#saldoAwalTabungan"));
+            const setoran = parseRupiahInput($("#setoranBulananTabungan"));
+            const tenor = parseInt($("#tenorTabungan").value);
+            const bunga = parseBunga($("#bungaTahunanTabungan").value);
+            if (isNaN(saldo) || saldo < 0) {
+              showError("SaldoAwal", "Saldo awal tidak valid");
+              errors.push("Saldo awal harus diisi dengan angka yang valid");
+            }
+            if (isNaN(setoran) || setoran < 0) {
+              showError("Setoran", "Setoran tidak valid");
+              errors.push("Setoran bulanan harus diisi dengan angka yang valid");
+            }
+            if (!tenor || tenor < 1 || tenor > 120) {
+              showError("TenorTabungan", "Jangka waktu 1-120 bulan");
+              errors.push("Jangka waktu harus antara 1-120 bulan");
+            }
+            if (isNaN(bunga) || bunga < 0 || bunga > 15) {
+              showError("BungaTabungan", "Bunga harus 0-15%");
+              errors.push("Bunga tahunan harus antara 0% - 15%");
+            }
+          }
+          if (errors.length > 0) {
+            formErrors.innerHTML = '<div style="color:var(--danger);font-size:0.85rem;margin-top:8px;"><i class="fas fa-exclamation-triangle"></i> ' + errors.join("<br>") + "</div>";
+            return false;
+          }
+          return true;
+        }
+
+        // ──────────────────────────────────────
+        // BUILD INFO CARDS (Step 3)
+        // ──────────────────────────────────────
+        function buildInfoCards(items) {
+          let html = '<div class="info-cards-grid">';
+          items.forEach((item) => {
+            html += `
+              <div class="info-card ${item.iconClass}">
+                <div class="info-card-icon"><i class="${item.icon}"></i></div>
+                <div class="info-card-body">
+                  <div class="info-card-label">${item.label}</div>
+                  <div class="info-card-value">${item.value}</div>
+                </div>
+              </div>`;
+          });
+          html += "</div>";
+          return html;
+        }
+
+        // ──────────────────────────────────────
+        // CALCULATION
+        // ──────────────────────────────────────
+        function hitung() {
+          if (!validateStep2()) return;
+          saveFormData();
+          infoCetak = "";
+          hasilHTML = "";
+          highlightHTML = "";
+          infoCardsHTML = "";
+
+          if (selectedSimulasi === "kredit") {
+            hitungKredit();
+          } else if (selectedSimulasi === "deposito") {
+            hitungDeposito();
+          } else if (selectedSimulasi === "tabungan") {
+            hitungTabungan();
+          }
+
+          infoCardsContainer.innerHTML = infoCardsHTML;
+          highlightContainer.innerHTML = highlightHTML;
+          hasilDetail.innerHTML = hasilHTML;
+          btnCetak.style.display = selectedSimulasi === "deposito" ? "none" : "inline-flex";
+          goToStep(3);
+        }
+
+        function hitungKredit() {
+          const pinjaman = parseRupiahInput($("#pinjaman"));
+          const tenor = parseInt($("#tenorKredit").value);
+          const bungaTahunan = parseBunga($("#bungaKredit").value);
+          const jenis = selectedKreditType;
+          const bungaBulananRate = bungaTahunan / 12 / 100;
+          let sisa = pinjaman;
+          let totalBayar = 0;
+          let cicilanPertama = 0;
+
+          // Info cards
+          const jenisLabel = jenis.charAt(0).toUpperCase() + jenis.slice(1);
+          const jenisIcons = {
+            flat: "fas fa-equals",
+            efektif: "fas fa-chart-line",
+            sliding: "fas fa-arrow-down",
+          };
+          infoCardsHTML = buildInfoCards([
+            {
+              icon: "fas fa-hand-holding-usd",
+              iconClass: "icon-blue",
+              label: "Pinjaman",
+              value: formatRupiah(pinjaman),
+            },
+            {
+              icon: "fas fa-calendar-alt",
+              iconClass: "icon-green",
+              label: "Tenor",
+              value: tenor + " bulan",
+            },
+            {
+              icon: "fas fa-percent",
+              iconClass: "icon-purple",
+              label: "Bunga Tahunan",
+              value: bungaTahunan.toString().replace(".", ",") + "%",
+            },
+            {
+              icon: jenisIcons[jenis] || "fas fa-tag",
+              iconClass: "icon-amber",
+              label: "Jenis Kredit",
+              value: jenisLabel,
+            },
+          ]);
+
+          hasilHTML += '<div class="result-table-wrap"><table>';
+          hasilHTML += "<thead><tr><th>Bulan</th><th>Pokok</th><th>Bunga</th><th>Total Bayar</th><th>Sisa Pinjaman</th></tr></thead><tbody>";
+
+          for (let i = 1; i <= tenor; i++) {
+            let pokok = 0,
+              bunga = 0,
+              total = 0;
+            if (jenis === "flat") {
+              pokok = pinjaman / tenor;
+              bunga = pinjaman * bungaBulananRate;
+              total = pokok + bunga;
+            } else if (jenis === "efektif") {
+              bunga = sisa * bungaBulananRate;
+              pokok = pinjaman / tenor;
+              total = pokok + bunga;
+              if (i === tenor) {
+                pokok = sisa;
+                total = pokok + bunga;
+              }
+            } else if (jenis === "sliding") {
+              bunga = sisa * bungaBulananRate;
+              if (i === tenor) {
+                pokok = sisa;
+                total = pokok + bunga;
+              } else {
+                pokok = 0;
+                total = bunga;
+              }
+            }
+            sisa -= pokok;
+            totalBayar += total;
+            if (i === 1) cicilanPertama = total;
+
+            hasilHTML += `<tr>
                 <td>${i}</td>
-                <td>Rp ${Math.round(saldoAwalBulanIniTampil).toLocaleString("id-ID")}</td>
-                <td>Rp ${Math.round(setoranBulanIni).toLocaleString("id-ID")}</td>
-                <td>Rp ${Math.round(bungaKotorBulanan).toLocaleString("id-ID")}</td>
-                <td>Rp ${Math.round(pajakBungaBulanan).toLocaleString("id-ID")}</td>
-                <td>Rp ${Math.round(bungaBersihBulanan).toLocaleString("id-ID")}</td>
-                <td>Rp ${Math.round(currentSaldo).toLocaleString("id-ID")}</td>
+                <td>${formatRupiah(pokok)}</td>
+                <td>${formatRupiah(bunga)}</td>
+                <td>${formatRupiah(total)}</td>
+                <td>${formatRupiah(Math.max(0, sisa))}</td>
               </tr>`;
-    }
-    html += "</table>";
-    html += "</div>";
-    html += `<p><strong>Total Saldo Akhir Setelah ${tenorTabungan} Bulan: Rp ${Math.round(currentSaldo).toLocaleString("id-ID")}</strong></p>`;
-    html += `<p><strong>Total Bunga Bersih Diterima: Rp ${Math.round(totalBungaBersih).toLocaleString("id-ID")}</strong></p>`;
+          }
+          hasilHTML += "</tbody></table></div>";
 
-    document.getElementById("cetakButton").style.display = "block";
-  }
-  hasilEl.innerHTML = infoCetak + html;
+          // Total bunga = total bayar - pokok pinjaman
+          const totalBunga = Math.max(0, totalBayar - pinjaman);
+          const cicilanText = `Total bunga: ${formatRupiah(Math.round(totalBunga))} Sesuai Tenor`;
 
-  
-  resultContainer.style.opacity = "0";
-  resultContainer.style.transform = "translateY(20px)";
-  resultContainer.style.animation = "none";
-  void resultContainer.offsetWidth;
-  resultContainer.style.animation = "fadeInSlideUp 0.6s ease-out forwards";
-}
+          highlightHTML = `
+              <div class="highlight-card">
+                <div class="hl-label">${cicilanText}</div>
+                <div class="hl-value">${formatRupiah(Math.round(totalBayar))}</div>
+                <div class="hl-sub">Total pembayaran selama ${tenor} bulan (belum termasuk biaya pinjaman)</div>
+                ${jenis === "sliding" ? `<div class="hl-sub" style="font-size:0.75rem;margin-top:6px;">Perhitungan kami asumsikan Anda membayar pokok pinjaman di akhir tenor.</div>` : ""}
+              </div>`;
+        }
 
+        function hitungDeposito() {
+          const nominal = parseRupiahInput($("#jumlahDeposito"));
+          const tenor = parseInt($("#tenorDeposito").value);
+          const bungaVal = $("#bungaDeposito").value.replace(",", ".").replace("%", "").trim();
+          const bunga = parseFloat(bungaVal);
+          const pajakRate = 20;
+          const hari = tenor * 30;
+          const bungaKotor = nominal * (bunga / 100) * (tenor / 12);
+          const nilaiPajak = (bungaKotor * pajakRate) / 100;
+          const bungaBersih = bungaKotor - nilaiPajak;
 
-const darkModeToggle = document.getElementById('darkModeToggle');
-const body = document.body;
+          infoCardsHTML = buildInfoCards([
+            {
+              icon: "fas fa-piggy-bank",
+              iconClass: "icon-blue",
+              label: "Deposito",
+              value: formatRupiah(nominal),
+            },
+            {
+              icon: "fas fa-calendar-alt",
+              iconClass: "icon-green",
+              label: "Tenor",
+              value: tenor + " bulan",
+            },
+            {
+              icon: "fas fa-percent",
+              iconClass: "icon-purple",
+              label: "Bunga p.a.",
+              value: bunga.toString().replace(".", ",") + "%",
+            },
+            {
+              icon: "fas fa-file-invoice",
+              iconClass: "icon-amber",
+              label: "Pajak Bunga",
+              value: "20%",
+            },
+          ]);
 
-function setDarkMode(isDark) {
-    if (isDark) {
-        body.classList.add('dark-mode');
-        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        localStorage.setItem('darkMode', 'enabled');
-    } else {
-        body.classList.remove('dark-mode');
-        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-        localStorage.setItem('darkMode', 'disabled');
-    }
-}
+          hasilHTML += '<div class="result-table-wrap"><table>';
+          hasilHTML += "<thead><tr><th>Komponen</th><th>Jumlah</th></tr></thead><tbody>";
+          hasilHTML += "<tr><td><strong>Bunga Kotor</strong></td><td>" + formatRupiah(bungaKotor) + "</td></tr>";
+          hasilHTML += "<tr><td>Pajak Bunga (20%)</td><td>" + formatRupiah(nilaiPajak) + "</td></tr>";
+          hasilHTML += '<tr class="total-row"><td><strong>Bunga Bersih Diterima</strong></td><td><strong>' + formatRupiah(bungaBersih) + "</strong></td></tr>";
+          hasilHTML += "</tbody></table></div>";
 
+          highlightHTML = `
+              <div class="highlight-card">
+                <div class="hl-label">Saldo Akhir Diterima</div>
+                <div class="hl-value">${formatRupiah(Math.round(nominal + bungaBersih))}</div>
+              </div>`;
+        }
 
-document.addEventListener('DOMContentLoaded', () => {
-    ubahForm(); 
+        function hitungTabungan() {
+          let currentSaldo = parseRupiahInput($("#saldoAwalTabungan"));
+          const setoranBulanan = parseRupiahInput($("#setoranBulananTabungan"));
+          const tenor = parseInt($("#tenorTabungan").value);
+          const bungaTahunan = parseBunga($("#bungaTahunanTabungan").value);
+          const BATAS_SALDO_PAJAK = 7500000;
+          const PAJAK_BUNGA_RATE = 0.2;
+          const bungaBulananRate = bungaTahunan / 100 / 12;
+          let totalBungaBersih = 0;
 
-    
-    const savedMode = localStorage.getItem('darkMode');
-    if (savedMode === 'enabled') {
-        setDarkMode(true);
-    } else {
-        setDarkMode(false);
-    }
+          infoCardsHTML = buildInfoCards([
+            {
+              icon: "fas fa-wallet",
+              iconClass: "icon-blue",
+              label: "Saldo Awal",
+              value: formatRupiah(currentSaldo),
+            },
+            {
+              icon: "fas fa-plus-circle",
+              iconClass: "icon-green",
+              label: "Setoran per Bulan",
+              value: formatRupiah(setoranBulanan),
+            },
+            {
+              icon: "fas fa-calendar-alt",
+              iconClass: "icon-purple",
+              label: "Jangka Waktu",
+              value: tenor + " bulan",
+            },
+            {
+              icon: "fas fa-percent",
+              iconClass: "icon-amber",
+              label: "Bunga p.a.",
+              value: bungaTahunan.toString().replace(".", ",") + "%",
+            },
+          ]);
 
-    
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-});
+          hasilHTML += '<div class="result-table-wrap"><table>';
+          hasilHTML += "<thead><tr><th>Bln</th><th>Saldo Awal</th><th>Setoran</th><th>Bunga Kotor</th><th>Pajak</th><th>Bunga Bersih</th><th>Saldo Akhir</th></tr></thead><tbody>";
 
+          for (let i = 1; i <= tenor; i++) {
+            let saldoAwalTampil = currentSaldo;
+            let setoranBlnIni = i === 1 ? 0 : setoranBulanan;
+            let saldoUntukBunga = currentSaldo + setoranBlnIni;
+            let bungaKotorBulanan = saldoUntukBunga * bungaBulananRate;
+            let pajakBungaBulanan = 0;
+            if (saldoUntukBunga + bungaKotorBulanan >= BATAS_SALDO_PAJAK) {
+              pajakBungaBulanan = bungaKotorBulanan * PAJAK_BUNGA_RATE;
+            }
+            let bungaBersihBulanan = bungaKotorBulanan - pajakBungaBulanan;
+            currentSaldo = saldoUntukBunga + bungaBersihBulanan;
+            totalBungaBersih += bungaBersihBulanan;
 
-darkModeToggle.addEventListener('click', () => {
-    setDarkMode(!body.classList.contains('dark-mode'));
-});
+            hasilHTML += `<tr>
+                <td>${i}</td>
+                <td>${formatRupiah(saldoAwalTampil)}</td>
+                <td>${formatRupiah(setoranBlnIni)}</td>
+                <td>${formatRupiah(bungaKotorBulanan)}</td>
+                <td>${formatRupiah(pajakBungaBulanan)}</td>
+                <td>${formatRupiah(bungaBersihBulanan)}</td>
+                <td>${formatRupiah(currentSaldo)}</td>
+              </tr>`;
+          }
+          hasilHTML += "</tbody></table></div>";
 
-</script>
-</body>
+          hasilHTML += `
+            <div class="table-summary">
+              <i class="fas fa-coins"></i>
+              <span>Total Bunga Bersih: <strong>${formatRupiah(Math.round(totalBungaBersih))}</strong></span>
+            </div>`;
+
+          highlightHTML = `
+              <div class="highlight-card">
+                <div class="hl-label">Saldo Akhir Setelah ${tenor} Bulan</div>
+                <div class="hl-value">${formatRupiah(Math.round(currentSaldo))}</div>
+                <div class="hl-sub">Total bunga bersih: ${formatRupiah(Math.round(totalBungaBersih))}</div>
+              </div>`;
+        }
+
+        // ──────────────────────────────────────
+        // CETAK
+        // ──────────────────────────────────────
+        function cetakHasil() {
+          const newWindow = window.open("", "Cetak Hasil Simulasi", "width=800,height=600");
+          newWindow.document.write(`
+            <html><head><title>Cetak Hasil Simulasi</title>
+            <style>
+              body{font-family:Arial,sans-serif;margin:20px;color:#1e293b;}
+              table{width:100%;border-collapse:collapse;margin-top:16px;}
+              th,td{border:1px solid #ccc;padding:8px;text-align:right;white-space:nowrap;}
+              th{background:#1e293b;color:#fff;font-weight:700;text-align:center;}
+              td:first-child,th:first-child{text-align:center;}
+              tr:nth-child(even) td{background:#f8fafc;}
+              .total-row td{font-weight:700;background:#eff6ff;color:#2563eb;}
+              h2{color:#2563eb;}
+              .highlight-card{border:2px solid #2563eb;border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;background:#eff6ff;}
+              .hl-value{font-size:1.8rem;font-weight:800;color:#2563eb;}
+              .info-cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+              .info-card{border:1px solid #ccc;border-radius:8px;padding:12px;text-align:center;background:#f8fafc;}
+              .info-card .info-card-label{font-size:0.7rem;text-transform:uppercase;color:#64748b;}
+              .info-card .info-card-value{font-weight:700;font-size:0.85rem;color:#1e293b;}
+              .table-summary{margin-top:14px;padding:12px;background:#f8fafc;border-radius:8px;font-weight:600;}
+            </style>
+            </head><body>
+            <h2>Rincian Simulasi</h2>
+            ${infoCardsHTML}
+            ${highlightHTML}
+            ${hasilHTML.replace(/<div class="result-table-wrap">/g, "").replace(/<\/div>/g, "")}
+            </body></html>
+          `);
+          newWindow.document.close();
+          newWindow.print();
+        }
+
+        // ──────────────────────────────────────
+        // MODAL POP-UP UNTUK INFO KREDIT
+        // ──────────────────────────────────────
+        const modalBackdrop = document.getElementById("kreditModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalBody = document.getElementById("modalBody");
+        const modalClose = document.getElementById("modalClose");
+
+        const kreditInfoContent = {
+          flat: {
+            title: "Kredit Flat",
+            body: "Angsuran pokok dan bunga tetap sama setiap bulan. Cocok untuk Anda yang ingin cicilan stabil tanpa perubahan, sehingga lebih mudah merencanakan anggaran.",
+          },
+          efektif: {
+            title: "Kredit Efektif",
+            body: "Bunga dihitung dari sisa pinjaman setiap bulan, sehingga jumlah bunga menurun seiring waktu. Pokok pinjaman tetap setiap bulan. Total bunga yang dibayar lebih rendah dibandingkan flat.",
+          },
+          sliding: {
+            title: "Kredit Sliding",
+            body: "Bunga kredit wajib dibayar setiap bulan, sedangkan pokok pinjaman dapat dibayar secara bertahap atau sekaligus pada saat jatuh tempo. Cocok untuk anda yang memiliki penghasilan tidak tetap dan ingin pembayaran pokok fleksibel.",
+          },
+        };
+
+        function openKreditModal(type) {
+          const info = kreditInfoContent[type];
+          if (!info) return;
+          modalTitle.textContent = info.title;
+          modalBody.textContent = info.body;
+          modalBackdrop.classList.add("active");
+        }
+
+        function closeKreditModal() {
+          modalBackdrop.classList.remove("active");
+        }
+
+        document.addEventListener("click", function (e) {
+          const infoIcon = e.target.closest(".kredit-info-icon");
+          if (infoIcon) {
+            e.stopPropagation();
+            const type = infoIcon.dataset.info;
+            openKreditModal(type);
+          }
+        });
+
+        modalClose.addEventListener("click", closeKreditModal);
+
+        modalBackdrop.addEventListener("click", function (e) {
+          if (e.target === modalBackdrop) {
+            closeKreditModal();
+          }
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && modalBackdrop.classList.contains("active")) {
+            closeKreditModal();
+          }
+        });
+
+        // ──────────────────────────────────────
+        // DARK MODE
+        // ──────────────────────────────────────
+        function setDarkMode(isDark) {
+          if (isDark) {
+            body.classList.add("dark-mode");
+            darkToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            localStorage.setItem("darkMode", "enabled");
+          } else {
+            body.classList.remove("dark-mode");
+            darkToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            localStorage.setItem("darkMode", "disabled");
+          }
+        }
+
+        // ──────────────────────────────────────
+        // EVENT LISTENERS
+        // ──────────────────────────────────────
+        choiceCards.forEach((card) => {
+          card.addEventListener("click", function () {
+            choiceCards.forEach((c) => c.classList.remove("selected"));
+            this.classList.add("selected");
+            selectedSimulasi = this.dataset.value;
+            btnLanjut.disabled = false;
+            sessionStorage.setItem("simulasiType", selectedSimulasi);
+          });
+          card.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              this.click();
+            }
+          });
+        });
+
+        btnLanjut.addEventListener("click", function () {
+          if (!selectedSimulasi) return;
+          renderFormStep2();
+          goToStep(2);
+        });
+
+        btnKembali.addEventListener("click", function () {
+          saveFormData();
+          goToStep(1);
+        });
+
+        btnHitung.addEventListener("click", function () {
+          hitung();
+        });
+
+        btnUbah.addEventListener("click", function () {
+          goToStep(2);
+          restoreFormData();
+        });
+
+        btnCetak.addEventListener("click", function () {
+          cetakHasil();
+        });
+
+        darkToggle.addEventListener("click", function () {
+          setDarkMode(!body.classList.contains("dark-mode"));
+        });
+
+        formStep2.addEventListener("input", function (e) {
+          if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") {
+            saveFormData();
+          }
+        });
+        formStep2.addEventListener("change", function (e) {
+          if (e.target.tagName === "SELECT") {
+            saveFormData();
+          }
+        });
+
+        // ──────────────────────────────────────
+        // INIT
+        // ──────────────────────────────────────
+        function init() {
+          const savedMode = localStorage.getItem("darkMode");
+          setDarkMode(savedMode === "enabled");
+
+          $("#currentYear").textContent = new Date().getFullYear();
+
+          const savedType = sessionStorage.getItem("simulasiType");
+          if (savedType && ["kredit", "deposito", "tabungan"].includes(savedType)) {
+            selectedSimulasi = savedType;
+            choiceCards.forEach((c) => {
+              c.classList.toggle("selected", c.dataset.value === savedType);
+            });
+            btnLanjut.disabled = false;
+          }
+
+          goToStep(1);
+        }
+
+        window.SimulasiApp = {
+          formatRupiahOnInput: window.formatRupiahOnInput,
+          clearOnFocus: window.clearOnFocus,
+          formatOnBlur: window.formatOnBlur,
+          syncSliderToInput: window.syncSliderToInput,
+          syncInputToSlider: window.syncInputToSlider,
+          updateBungaDeposito: window.updateBungaDeposito,
+        };
+
+        init();
+      })();
+    </script>
+  </body>
 </html>
