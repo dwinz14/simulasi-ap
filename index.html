@@ -540,6 +540,181 @@
         color: var(--primary);
       }
 
+      /* Product Cards for Kredit */
+      .kredit-product-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      @media (min-width: 500px) {
+        .kredit-product-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 750px) {
+        .kredit-product-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      .kredit-product-card {
+        border: 2px solid var(--border-light);
+        border-radius: var(--radius);
+        padding: 18px 16px;
+        cursor: pointer;
+        transition: all var(--transition);
+        background: var(--card-bg);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .kredit-product-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--primary-gradient);
+        opacity: 0;
+        transition: opacity var(--transition);
+      }
+
+      .kredit-product-card:hover {
+        border-color: var(--primary);
+        box-shadow: var(--shadow);
+        transform: translateY(-2px);
+      }
+
+      .kredit-product-card:hover::before {
+        opacity: 1;
+      }
+
+      .kredit-product-card.selected {
+        border-color: var(--primary);
+        background: var(--primary-light);
+        box-shadow: var(--shadow-glow), var(--shadow);
+      }
+
+      .kredit-product-card.selected::before {
+        opacity: 1;
+      }
+
+      .kredit-product-card.selected::after {
+        content: "\f058";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        font-size: 1rem;
+        color: var(--primary);
+      }
+
+      .kp-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        background: var(--primary-light);
+        color: var(--primary);
+        margin-bottom: 10px;
+        transition: all var(--transition);
+      }
+
+      .kredit-product-card:hover .kp-icon,
+      .kredit-product-card.selected .kp-icon {
+        background: var(--primary-gradient);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(79, 125, 249, 0.25);
+      }
+
+      .kp-name {
+        font-weight: 700;
+        font-size: 0.95rem;
+        margin-bottom: 4px;
+        color: var(--text);
+      }
+
+      .kp-desc {
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+        line-height: 1.4;
+        margin-bottom: 10px;
+      }
+
+      .kp-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .kp-meta-item {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        background: var(--bg-subtle);
+        padding: 3px 8px;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .product-info-bar {
+        background: var(--primary-light);
+        border: 1.5px solid var(--primary-soft);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px;
+        margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .pib-row {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .pib-label {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+        color: var(--text-muted);
+      }
+
+      .pib-value {
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: var(--text);
+      }
+
+      @media (max-width: 480px) {
+        .product-info-bar {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .kredit-selected-view {
+        animation: fadeSlideIn 0.35s ease-out;
+      }
+
+      .btn-ganti-produk {
+        margin-bottom: 16px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        min-width: auto;
+        border-radius: var(--radius-xs);
+      }
+
       /* Form Elements */
       .form-group {
         margin-bottom: 22px;
@@ -748,92 +923,6 @@
         color: var(--primary);
         margin-top: 2px;
         flex-shrink: 0;
-      }
-
-      /* Kredit type cards (now 4) */
-      .kredit-type-row {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-
-      @media (min-width: 400px) {
-        .kredit-type-row {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (min-width: 650px) {
-        .kredit-type-row {
-          grid-template-columns: repeat(4, 1fr);
-        }
-      }
-
-      .kredit-type-card {
-        border: 2px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 16px 12px;
-        cursor: pointer;
-        text-align: center;
-        transition: all var(--transition);
-        font-weight: 600;
-        font-size: 0.85rem;
-        background: var(--card-bg);
-        color: var(--text-tertiary);
-        position: relative;
-        min-height: 72px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 4px;
-      }
-
-      .kredit-type-card:hover {
-        border-color: var(--primary);
-        color: var(--text);
-        background: var(--bg-subtle);
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-sm);
-      }
-
-      .kredit-type-card.selected {
-        border-color: var(--primary);
-        background: var(--primary-light);
-        color: var(--primary);
-        box-shadow: var(--shadow-glow);
-      }
-
-      .kredit-type-card .kt-icon {
-        font-size: 1.3rem;
-        display: block;
-        margin-bottom: 2px;
-        line-height: 1.1;
-      }
-
-      .kredit-info-icon {
-        position: absolute;
-        top: 6px;
-        right: 6px;
-        width: 24px;
-        height: 24px;
-        background: var(--card-bg);
-        border: 1.5px solid var(--border);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.65rem;
-        color: var(--text-secondary);
-        cursor: pointer;
-        transition: all var(--transition);
-        z-index: 2;
-      }
-
-      .kredit-info-icon:hover {
-        background: var(--primary);
-        color: #fff;
-        border-color: var(--primary);
-        transform: scale(1.1);
       }
 
       /* Modal */
@@ -1513,13 +1602,27 @@
       <i class="fas fa-chevron-up"></i>
     </button>
 
+    <script src="produk-kredit.js"></script>
     <script>
       (function () {
         let currentStep = 1;
         let selectedSimulasi = null;
-        let selectedKreditType = "flat";
+        let selectedProductId = null;
         let infoCetak = "";
         let hasilHTML = "";
+
+        function capitalize(str) {
+          return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        function getSelectedProduct() {
+          if (!selectedProductId) return null;
+          return (
+            kreditProducts.find(function (p) {
+              return p.id === selectedProductId;
+            }) || null
+          );
+        }
         let highlightHTML = "";
         let infoCardsHTML = "";
 
@@ -1613,63 +1716,106 @@
         }
 
         function buildFormKredit() {
-          return `
-          <div class="form-group">
-            <label class="form-label" for="pinjaman">Jumlah Pinjaman
-              <span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">?<span class="tooltip-bubble">Total uang yang ingin Anda pinjam. Contoh: Rp 50.000.000</span></span>
-            </label>
-            <div class="input-wrapper">
-              <span class="input-prefix">Rp</span>
-              <input type="text" class="form-input" id="pinjaman" placeholder="50.000.000"
-                oninput="SimulasiApp.formatRupiahOnInput(this)" onfocus="SimulasiApp.clearOnFocus(this)" onblur="SimulasiApp.formatOnBlur(this)">
-            </div>
-            <div class="error-msg" id="errPinjaman"><i class="fas fa-exclamation-circle"></i> <span></span></div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="tenorKredit">Tenor (bulan)
-              <span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">?<span class="tooltip-bubble">Lama waktu pinjaman dalam bulan. Maksimal 36 bulan.</span></span>
-            </label>
-            <select class="form-select" id="tenorKredit">
-              <option value="">Pilih Tenor</option>
-              ${Array.from({ length: 36 }, (_, i) => i + 1)
-                .map((m) => `<option value="${m}">${m} bulan</option>`)
-                .join("")}
-            </select>
-            <div class="error-msg" id="errTenorKredit"><i class="fas fa-exclamation-circle"></i> <span></span></div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="bungaKredit">Bunga Tahunan (%)
-              <span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">?<span class="tooltip-bubble">Suku bunga per tahun. Gunakan koma untuk desimal, contoh: 12,5</span></span>
-            </label>
-            <div class="slider-row">
-              <input type="range" id="sliderBungaKredit" min="0" max="30" step="0.05" value="10" oninput="SimulasiApp.syncSliderToInput(this, 'bungaKredit')">
-              <input type="text" class="form-input" id="bungaKredit" value="10" style="width:90px;text-align:center;padding:10px;" oninput="SimulasiApp.syncInputToSlider(this, 'sliderBungaKredit')" placeholder="10">
-              <span class="slider-value" id="bungaValDisplay">10%</span>
-            </div>
-            <div class="error-msg" id="errBungaKredit"><i class="fas fa-exclamation-circle"></i> <span></span></div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Jenis Kredit</label>
-            <div class="kredit-type-row" id="kreditTypeRow">
-              <div class="kredit-type-card selected" data-kt="flat" tabindex="0">
-                <span class="kt-icon"><i class="fas fa-equals"></i></span> Flat
-                <span class="kredit-info-icon" data-info="flat" tabindex="0" role="button" aria-label="Info Flat"><i class="fas fa-question"></i></span>
-              </div>
-              <div class="kredit-type-card" data-kt="efektif" tabindex="0">
-                <span class="kt-icon"><i class="fas fa-chart-line"></i></span> Efektif
-                <span class="kredit-info-icon" data-info="efektif" tabindex="0" role="button" aria-label="Info Efektif"><i class="fas fa-question"></i></span>
-              </div>
-              <div class="kredit-type-card" data-kt="sliding" tabindex="0">
-                <span class="kt-icon"><i class="fas fa-arrow-down"></i></span> Sliding
-                <span class="kredit-info-icon" data-info="sliding" tabindex="0" role="button" aria-label="Info Sliding"><i class="fas fa-question"></i></span>
-              </div>
-              <!-- TAMBAHAN: ANUITAS -->
-              <div class="kredit-type-card" data-kt="anuitas" tabindex="0">
-                <span class="kt-icon"><i class="fas fa-balance-scale"></i></span> Anuitas
-                <span class="kredit-info-icon" data-info="anuitas" tabindex="0" role="button" aria-label="Info Anuitas"><i class="fas fa-question"></i></span>
-              </div>
-            </div>
-          </div>`;
+          if (typeof kreditProducts === "undefined" || !kreditProducts.length) {
+            return '<div class="form-helper" style="padding:20px;text-align:center;"><i class="fas fa-exclamation-triangle"></i> Produk kredit belum tersedia. Silakan muat ulang halaman.</div>';
+          }
+
+          var product = getSelectedProduct();
+
+          // View 1 — no product selected: show only the product grid
+          if (!product) {
+            var productCards = kreditProducts
+              .map(function (p) {
+                var bungaText = p.bungaPerBulan ? p.bungaPerBulan + "% / bln" : p.bungaPerTahun + "% / thn";
+                var jenisLabel = capitalize(p.jenis);
+                return (
+                  '<div class="kredit-product-card" data-product-id="' +
+                  p.id +
+                  '" tabindex="0" role="button">' +
+                  '<div class="kp-icon"><i class="fas fa-file-contract"></i></div>' +
+                  '<div class="kp-name">' +
+                  p.nama +
+                  "</div>" +
+                  '<div class="kp-desc">' +
+                  p.deskripsi +
+                  "</div>" +
+                  '<div class="kp-meta">' +
+                  '<span class="kp-meta-item"><i class="fas fa-percent"></i> ' +
+                  bungaText +
+                  "</span>" +
+                  '<span class="kp-meta-item"><i class="fas fa-calendar-alt"></i> ' +
+                  p.tenorMin +
+                  "-" +
+                  p.tenorMax +
+                  " bln</span>" +
+                  '<span class="kp-meta-item"><i class="fas fa-tag"></i> ' +
+                  jenisLabel +
+                  "</span>" +
+                  "</div>" +
+                  "</div>"
+                );
+              })
+              .join("");
+            return '<div class="form-group">' + '<label class="form-label">Pilih Produk Kredit</label>' + '<div class="kredit-product-grid" id="kreditProductGrid">' + productCards + "</div>" + "</div>";
+          }
+
+          // View 2 — product selected: show form fields with back button
+          var tenorOptions = "";
+          for (var i = product.tenorMin; i <= product.tenorMax; i++) {
+            tenorOptions += '<option value="' + i + '">' + i + " bulan</option>";
+          }
+          var bungaText = product.bungaPerBulan ? product.bungaPerBulan + "% per bulan (" + (product.bungaPerBulan * 12).toFixed(1) + "% per tahun)" : product.bungaPerTahun + "% per tahun";
+          var jenisLabel = capitalize(product.jenis);
+          return (
+            "" +
+            '<div class="kredit-selected-view">' +
+            '<button class="btn btn-outline btn-ganti-produk" id="btnGantiProduk" type="button"><i class="fas fa-arrow-left"></i> Ganti Produk</button>' +
+            '<div class="product-info-bar">' +
+            '<div class="pib-row"><span class="pib-label">Produk</span><span class="pib-value">' +
+            product.nama +
+            "</span></div>" +
+            '<div class="pib-row"><span class="pib-label">Bunga</span><span class="pib-value">' +
+            bungaText +
+            "</span></div>" +
+            '<div class="pib-row"><span class="pib-label">Skema</span><span class="pib-value">' +
+            jenisLabel +
+            "</span></div>" +
+            '<div class="pib-row"><span class="pib-label">Tenor</span><span class="pib-value">' +
+            product.tenorMin +
+            " - " +
+            product.tenorMax +
+            " bulan</span></div>" +
+            "</div>" +
+            '<div class="form-group">' +
+            '<label class="form-label" for="pinjaman">Jumlah Pinjaman' +
+            '<span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">?<span class="tooltip-bubble">Total uang yang ingin Anda pinjam. Contoh: Rp 50.000.000</span></span>' +
+            "</label>" +
+            '<div class="input-wrapper">' +
+            '<span class="input-prefix">Rp</span>' +
+            '<input type="text" class="form-input" id="pinjaman" placeholder="50.000.000" oninput="SimulasiApp.formatRupiahOnInput(this)" onfocus="SimulasiApp.clearOnFocus(this)" onblur="SimulasiApp.formatOnBlur(this)">' +
+            "</div>" +
+            '<div class="error-msg" id="errPinjaman"><i class="fas fa-exclamation-circle"></i> <span></span></div>' +
+            "</div>" +
+            '<div class="form-group">' +
+            '<label class="form-label" for="tenorKredit">Tenor (bulan)' +
+            '<span class="tooltip-trigger" tabindex="0" aria-label="Bantuan">?<span class="tooltip-bubble">Lama waktu pinjaman dalam bulan. Minimal ' +
+            product.tenorMin +
+            ", maksimal " +
+            product.tenorMax +
+            " bulan.</span></span>" +
+            "</label>" +
+            '<select class="form-select" id="tenorKredit">' +
+            '<option value="">Pilih Tenor (' +
+            product.tenorMin +
+            "-" +
+            product.tenorMax +
+            " bulan)</option>" +
+            tenorOptions +
+            "</select>" +
+            '<div class="error-msg" id="errTenorKredit"><i class="fas fa-exclamation-circle"></i> <span></span></div>' +
+            "</div>" +
+            "</div>"
+          );
         }
 
         function buildFormDeposito() {
@@ -1753,6 +1899,8 @@
         }
 
         function renderFormStep2() {
+          // restore selectedProductId first so buildFormKredit renders correctly
+          restoreKreditProductSelection();
           let html = "";
           if (selectedSimulasi === "kredit") {
             html = buildFormKredit();
@@ -1769,25 +1917,52 @@
           }
           formStep2.innerHTML = html;
           formErrors.innerHTML = "";
-          selectedKreditType = "flat";
 
           if (selectedSimulasi === "kredit") {
-            const ktCards = $$("#kreditTypeRow .kredit-type-card");
-            ktCards.forEach((card) => {
-              card.addEventListener("click", function () {
-                ktCards.forEach((c) => c.classList.remove("selected"));
-                this.classList.add("selected");
-                selectedKreditType = this.dataset.kt;
-              });
-              card.addEventListener("keydown", function (e) {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  this.click();
-                }
-              });
-            });
+            setupProductCardEvents();
+            setupGantiProdukHandler();
           }
           restoreFormData();
+        }
+
+        function restoreKreditProductSelection() {
+          if (selectedSimulasi !== "kredit") return;
+          try {
+            var raw = sessionStorage.getItem("simulasiData_kredit");
+            if (!raw) return;
+            var data = JSON.parse(raw);
+            if (data["selectedProductId"]) {
+              selectedProductId = data["selectedProductId"];
+            }
+          } catch (e) {}
+        }
+
+        function setupProductCardEvents() {
+          var productCards = document.querySelectorAll("#kreditProductGrid .kredit-product-card");
+          productCards.forEach(function (card) {
+            card.addEventListener("click", function () {
+              saveFormData();
+              selectedProductId = this.dataset.productId;
+              renderFormStep2();
+              saveFormData();
+            });
+            card.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                this.click();
+              }
+            });
+          });
+        }
+
+        function setupGantiProdukHandler() {
+          var btn = document.getElementById("btnGantiProduk");
+          if (!btn) return;
+          btn.addEventListener("click", function () {
+            selectedProductId = null;
+            saveFormData();
+            renderFormStep2();
+          });
         }
 
         function saveFormData() {
@@ -1795,7 +1970,7 @@
           const data = {};
           const ids =
             {
-              kredit: ["pinjaman", "tenorKredit", "bungaKredit"],
+              kredit: ["pinjaman", "tenorKredit"],
               deposito: ["jumlahDeposito", "tenorDeposito", "bungaDeposito"],
               tabungan: ["saldoAwalTabungan", "setoranBulananTabungan", "tenorTabungan", "bungaTahunanTabungan"],
             }[selectedSimulasi] || [];
@@ -1803,7 +1978,7 @@
             const el = document.getElementById(id);
             if (el) data[id] = el.value;
           });
-          if (selectedSimulasi === "kredit") data["kreditType"] = selectedKreditType;
+          if (selectedSimulasi === "kredit") data["selectedProductId"] = selectedProductId || "";
           sessionStorage.setItem("simulasiData_" + selectedSimulasi, JSON.stringify(data));
           sessionStorage.setItem("simulasiType", selectedSimulasi);
         }
@@ -1816,18 +1991,10 @@
             const data = JSON.parse(raw);
             Object.keys(data).forEach((key) => {
               const el = document.getElementById(key);
-              if (el && key !== "kreditType") {
+              if (el && key !== "selectedProductId") {
                 el.value = data[key];
                 if (["pinjaman", "jumlahDeposito", "saldoAwalTabungan", "setoranBulananTabungan"].includes(key) && el.value && !el.value.startsWith("Rp")) {
                   formatRupiahInput(el);
-                }
-                if (key === "bungaKredit") {
-                  const slider = $("#sliderBungaKredit");
-                  if (slider) {
-                    const val = parseBunga(data[key]);
-                    if (!isNaN(val)) slider.value = val;
-                    updateBungaDisplay("bungaKredit", "bungaValDisplay");
-                  }
                 }
                 if (key === "bungaTahunanTabungan") {
                   const slider = $("#sliderBungaTabungan");
@@ -1839,10 +2006,8 @@
                 }
               }
             });
-            if (data["kreditType"] && selectedSimulasi === "kredit") {
-              selectedKreditType = data["kreditType"];
-              const ktCards = $$("#kreditTypeRow .kredit-type-card");
-              ktCards.forEach((c) => c.classList.toggle("selected", c.dataset.kt === selectedKreditType));
+            if (selectedSimulasi === "kredit" && data["selectedProductId"]) {
+              selectedProductId = data["selectedProductId"];
             }
           } catch (e) {}
         }
@@ -1923,20 +2088,21 @@
           clearErrors();
           let errors = [];
           if (selectedSimulasi === "kredit") {
+            const product = getSelectedProduct();
+            if (!product) {
+              formErrors.innerHTML =
+                '<div style="color:var(--danger);font-size:0.85rem;display:flex;align-items:flex-start;gap:6px;"><i class="fas fa-exclamation-triangle"></i><span>Silakan pilih produk kredit terlebih dahulu</span></div>';
+              return false;
+            }
             const pinjaman = parseRupiahInput($("#pinjaman"));
             const tenor = parseInt($("#tenorKredit").value);
-            const bunga = parseBunga($("#bungaKredit").value);
             if (!pinjaman || pinjaman < 100000) {
               showError("Pinjaman", "Minimal Rp 100.000");
               errors.push("Jumlah pinjaman minimal Rp 100.000");
             }
-            if (!tenor || tenor < 1 || tenor > 36) {
-              showError("TenorKredit", "Pilih tenor 1-36 bulan");
-              errors.push("Tenor harus dipilih (1-36 bulan)");
-            }
-            if (isNaN(bunga) || bunga < 0 || bunga > 30) {
-              showError("BungaKredit", "Bunga harus 0-30%");
-              errors.push("Bunga tahunan harus antara 0% - 30%");
+            if (!tenor || tenor < product.tenorMin || tenor > product.tenorMax) {
+              showError("TenorKredit", "Pilih tenor " + product.tenorMin + "-" + product.tenorMax + " bulan");
+              errors.push("Tenor harus antara " + product.tenorMin + "-" + product.tenorMax + " bulan");
             }
           } else if (selectedSimulasi === "deposito") {
             const jumlah = parseRupiahInput($("#jumlahDeposito"));
@@ -2016,25 +2182,35 @@
         }
 
         function hitungKredit() {
+          const product = getSelectedProduct();
+          if (!product) return;
           const pinjaman = parseRupiahInput($("#pinjaman"));
           const tenor = parseInt($("#tenorKredit").value);
-          const bungaTahunan = parseBunga($("#bungaKredit").value);
-          const jenis = selectedKreditType;
-          const bungaBulananRate = bungaTahunan / 12 / 100;
+
+          let bungaBulananRate;
+          if (product.bungaPerBulan !== undefined) {
+            bungaBulananRate = product.bungaPerBulan / 100;
+          } else if (product.bungaPerTahun !== undefined) {
+            bungaBulananRate = product.bungaPerTahun / 12 / 100;
+          } else {
+            bungaBulananRate = 0;
+          }
+          const jenis = product.jenis;
 
           // Info cards
-          const jenisLabel = jenis.charAt(0).toUpperCase() + jenis.slice(1);
+          const jenisLabel = capitalize(jenis);
           const jenisIcons = {
             flat: "fas fa-equals",
             efektif: "fas fa-chart-line",
             sliding: "fas fa-arrow-down",
             anuitas: "fas fa-balance-scale",
           };
+          const bungaTahunanPct = product.bungaPerBulan !== undefined ? product.bungaPerBulan * 12 : product.bungaPerTahun || 0;
           infoCardsHTML = buildInfoCards([
             { icon: "fas fa-hand-holding-usd", iconClass: "icon-blue", label: "Pinjaman", value: formatRupiah(pinjaman) },
             { icon: "fas fa-calendar-alt", iconClass: "icon-green", label: "Tenor", value: tenor + " bulan" },
-            { icon: "fas fa-percent", iconClass: "icon-purple", label: "Bunga Tahunan", value: bungaTahunan.toString().replace(".", ",") + "%" },
-            { icon: jenisIcons[jenis] || "fas fa-tag", iconClass: "icon-amber", label: "Jenis Kredit", value: jenisLabel },
+            { icon: "fas fa-percent", iconClass: "icon-purple", label: "Bunga", value: bungaTahunanPct.toFixed(1).replace(".", ",") + "% / thn" },
+            { icon: "fas fa-file-contract", iconClass: "icon-amber", label: "Produk", value: product.nama },
           ]);
 
           hasilHTML += '<div class="result-table-wrap"><table>';
