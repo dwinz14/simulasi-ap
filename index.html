@@ -1507,11 +1507,11 @@
             Simulasi Perhitungan
           </div>
         </div>
-        <div class="header-actions">
+        <!-- <div class="header-actions">
           <button id="darkModeToggle" aria-label="Toggle dark mode" title="Mode Gelap / Terang">
             <i class="fas fa-moon"></i>
           </button>
-        </div>
+        </div> -->
       </header>
 
       <div class="stepper-wrap">
@@ -2537,9 +2537,9 @@
 
         btnCetak.addEventListener("click", cetakHasil);
 
-        darkToggle.addEventListener("click", function () {
-          setDarkMode(!body.classList.contains("dark-mode"));
-        });
+        // darkToggle.addEventListener("click", function () {
+        //   setDarkMode(!body.classList.contains("dark-mode"));
+        // });
 
         formStep2.addEventListener("input", function (e) {
           if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") saveFormData();
@@ -2550,8 +2550,8 @@
 
         // ── INIT ─────────────────────────────────
         function init() {
-          const savedMode = localStorage.getItem("darkMode");
-          setDarkMode(savedMode === "enabled");
+          // const savedMode = localStorage.getItem("darkMode");
+          // setDarkMode(savedMode === "enabled");
           $("#currentYear").textContent = new Date().getFullYear();
 
           const savedType = sessionStorage.getItem("simulasiType");
